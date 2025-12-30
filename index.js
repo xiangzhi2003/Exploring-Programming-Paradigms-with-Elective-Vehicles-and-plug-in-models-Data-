@@ -1,7 +1,7 @@
 // ============================================================
 // APLC Assignment Phase 1 - Imperative Programming Paradigm
 // ============================================================
-// Student: [Your Name]
+// Student: [C]
 // Student ID: [Your ID]
 // Date: [Date]
 //
@@ -13,3 +13,6 @@
 //
 // PROHIBITED: .map(), .filter(), .reduce(), .find(), .forEach(), .sort()
 // ============================================================
+
+// Import the file system module for reading files
+const fs = require('fs');
