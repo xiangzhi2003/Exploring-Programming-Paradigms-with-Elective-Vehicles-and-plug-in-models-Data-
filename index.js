@@ -19,6 +19,15 @@
 // Import the file system module for reading files
 const fs = require("fs");
 
+// Import readline module for user input
+const readline = require("readline");
+
+// Create readline interface for interactive input
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
 // Read the JSON file from the file system
 // Using synchronous read for simplicity
 const rawData = fs.readFileSync("electric_vehicles_dataset.json", "utf8");
@@ -181,58 +190,9 @@ function listModelsByManufacturer(data, manufacturer) {
   }
 }
 
-// Test Operation 2 - Display models for ALL manufacturers (A-Z order)
+// Test Operation 2 - Interactive user input
 console.log("\n===== OPERATION 2: List Models by Manufacturer =====");
-listModelsByManufacturer(vehicles, "Acura");
-listModelsByManufacturer(vehicles, "Audi");
-listModelsByManufacturer(vehicles, "BMW");
-listModelsByManufacturer(vehicles, "BYD");
-listModelsByManufacturer(vehicles, "Cadillac");
-listModelsByManufacturer(vehicles, "Canoo");
-listModelsByManufacturer(vehicles, "Changan");
-listModelsByManufacturer(vehicles, "Chevrolet");
-listModelsByManufacturer(vehicles, "Citroen");
-listModelsByManufacturer(vehicles, "Dacia");
-listModelsByManufacturer(vehicles, "Faraday Future");
-listModelsByManufacturer(vehicles, "Ferrari");
-listModelsByManufacturer(vehicles, "Fisker");
-listModelsByManufacturer(vehicles, "Ford");
-listModelsByManufacturer(vehicles, "Geely");
-listModelsByManufacturer(vehicles, "Genesis");
-listModelsByManufacturer(vehicles, "GMC");
-listModelsByManufacturer(vehicles, "Great Wall Motors");
-listModelsByManufacturer(vehicles, "Honda");
-listModelsByManufacturer(vehicles, "Hyundai");
-listModelsByManufacturer(vehicles, "Jaguar");
-listModelsByManufacturer(vehicles, "Jeep");
-listModelsByManufacturer(vehicles, "Kia");
-listModelsByManufacturer(vehicles, "Lamborghini");
-listModelsByManufacturer(vehicles, "Li Auto");
-listModelsByManufacturer(vehicles, "Lotus");
-listModelsByManufacturer(vehicles, "Lucid Motors");
-listModelsByManufacturer(vehicles, "Mahindra");
-listModelsByManufacturer(vehicles, "Maserati");
-listModelsByManufacturer(vehicles, "Mazda");
-listModelsByManufacturer(vehicles, "Mercedes-Benz");
-listModelsByManufacturer(vehicles, "MG");
-listModelsByManufacturer(vehicles, "Mini");
-listModelsByManufacturer(vehicles, "NIO");
-listModelsByManufacturer(vehicles, "Nissan");
-listModelsByManufacturer(vehicles, "Opel");
-listModelsByManufacturer(vehicles, "Peugeot");
-listModelsByManufacturer(vehicles, "Pininfarina");
-listModelsByManufacturer(vehicles, "Polestar");
-listModelsByManufacturer(vehicles, "Porsche");
-listModelsByManufacturer(vehicles, "Renault");
-listModelsByManufacturer(vehicles, "Rimac");
-listModelsByManufacturer(vehicles, "Rivian");
-listModelsByManufacturer(vehicles, "Seat");
-listModelsByManufacturer(vehicles, "Skoda");
-listModelsByManufacturer(vehicles, "Subaru");
-listModelsByManufacturer(vehicles, "Tesla");
-listModelsByManufacturer(vehicles, "Toyota");
-listModelsByManufacturer(vehicles, "VinFast");
-listModelsByManufacturer(vehicles, "Volkswagen");
-listModelsByManufacturer(vehicles, "Volvo");
-listModelsByManufacturer(vehicles, "XPeng");
-listModelsByManufacturer(vehicles, "Zeekr");
+rl.question("Enter manufacturer: ", function(answer) {
+  listModelsByManufacturer(vehicles, answer);
+  rl.close();
+});
