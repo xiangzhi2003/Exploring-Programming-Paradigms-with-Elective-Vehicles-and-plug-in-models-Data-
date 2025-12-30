@@ -29,3 +29,13 @@ console.log('='.repeat(50));
 console.log('Data loaded successfully!');
 console.log('Total vehicles in dataset:', vehicles.length);
 console.log('='.repeat(50));
+
+// ============================================================
+// OPERATION 1: Count Vehicles by Manufacturer
+// Purpose: Count how many vehicles belong to a specific manufacturer
+// Input: data array, manufacturer name (string)
+// Output: count (number)
+// ============================================================
+function countVehiclesByManufacturer(data, manufacturer) {
+    // TODO: Implement counting logic
+}
