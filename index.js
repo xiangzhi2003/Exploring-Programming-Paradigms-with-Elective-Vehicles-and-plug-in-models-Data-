@@ -153,5 +153,16 @@ console.log("Input: Zeekr ; Output:", countVehiclesByManufacturer(vehicles, "Zee
 // Output: prints model names to console
 // ============================================================
 function listModelsByManufacturer(data, manufacturer) {
-  // TODO: Implement model listing logic
+  // Initialize empty array to store matching models
+  let models = [];
+
+  // Use for loop to iterate through all vehicles
+  for (let i = 0; i < data.length; i++) {
+    // Check if manufacturer matches
+    if (data[i].Manufacturer === manufacturer) {
+      // Add the model name to our array
+      models[models.length] = data[i].Model;
+    }
+  }
+  // TODO: Add printing logic
 }
