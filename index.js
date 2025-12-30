@@ -14,6 +14,8 @@
 // PROHIBITED: .map(), .filter(), .reduce(), .find(), .forEach(), .sort()
 // ============================================================
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // Import the file system module for reading files
 const fs = require("fs");
 
@@ -24,11 +26,28 @@ const rawData = fs.readFileSync("electric_vehicles_dataset.json", "utf8");
 // Parse the JSON string into a JavaScript array of objects
 const vehicles = JSON.parse(rawData);
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Verify data loaded successfully
 console.log("=".repeat(50));
-console.log("Data loaded successfully!");
+console.log("\nData loaded successfully!");
 console.log("Total vehicles in dataset:", vehicles.length);
+
+// List all unique manufacturers from the JSON file
+let uniqueManufacturers = [];
+for (let i = 0; i < vehicles.length; i++) {
+  let found = false;
+  for (let j = 0; j < uniqueManufacturers.length; j++) {
+    if (uniqueManufacturers[j] === vehicles[i].Manufacturer) {
+      found = true;
+    }
+  }
+  if (found === false) {
+    uniqueManufacturers[uniqueManufacturers.length] = vehicles[i].Manufacturer;
+  }
+}
+console.log("\nManufacturers in dataset:", uniqueManufacturers, "\n");
 console.log("=".repeat(50));
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // ============================================================
 // OPERATION 1: Count Vehicles by Manufacturer or Model
@@ -65,34 +84,52 @@ console.log("Input: Changan ; Output:", countVehicles(vehicles, "Changan"));
 console.log("Input: Chevrolet ; Output:", countVehicles(vehicles, "Chevrolet"));
 console.log("Input: Citroen ; Output:", countVehicles(vehicles, "Citroen"));
 console.log("Input: Dacia ; Output:", countVehicles(vehicles, "Dacia"));
-console.log("Input: Faraday Future ; Output:", countVehicles(vehicles, "Faraday Future"));
+console.log(
+  "Input: Faraday Future ; Output:",
+  countVehicles(vehicles, "Faraday Future")
+);
 console.log("Input: Ferrari ; Output:", countVehicles(vehicles, "Ferrari"));
 console.log("Input: Fisker ; Output:", countVehicles(vehicles, "Fisker"));
 console.log("Input: Ford ; Output:", countVehicles(vehicles, "Ford"));
 console.log("Input: Geely ; Output:", countVehicles(vehicles, "Geely"));
 console.log("Input: Genesis ; Output:", countVehicles(vehicles, "Genesis"));
 console.log("Input: GMC ; Output:", countVehicles(vehicles, "GMC"));
-console.log("Input: Great Wall Motors ; Output:", countVehicles(vehicles, "Great Wall Motors"));
+console.log(
+  "Input: Great Wall Motors ; Output:",
+  countVehicles(vehicles, "Great Wall Motors")
+);
 console.log("Input: Honda ; Output:", countVehicles(vehicles, "Honda"));
 console.log("Input: Hyundai ; Output:", countVehicles(vehicles, "Hyundai"));
 console.log("Input: Jaguar ; Output:", countVehicles(vehicles, "Jaguar"));
 console.log("Input: Jeep ; Output:", countVehicles(vehicles, "Jeep"));
 console.log("Input: Kia ; Output:", countVehicles(vehicles, "Kia"));
-console.log("Input: Lamborghini ; Output:", countVehicles(vehicles, "Lamborghini"));
+console.log(
+  "Input: Lamborghini ; Output:",
+  countVehicles(vehicles, "Lamborghini")
+);
 console.log("Input: Li Auto ; Output:", countVehicles(vehicles, "Li Auto"));
 console.log("Input: Lotus ; Output:", countVehicles(vehicles, "Lotus"));
-console.log("Input: Lucid Motors ; Output:", countVehicles(vehicles, "Lucid Motors"));
+console.log(
+  "Input: Lucid Motors ; Output:",
+  countVehicles(vehicles, "Lucid Motors")
+);
 console.log("Input: Mahindra ; Output:", countVehicles(vehicles, "Mahindra"));
 console.log("Input: Maserati ; Output:", countVehicles(vehicles, "Maserati"));
 console.log("Input: Mazda ; Output:", countVehicles(vehicles, "Mazda"));
-console.log("Input: Mercedes-Benz ; Output:", countVehicles(vehicles, "Mercedes-Benz"));
+console.log(
+  "Input: Mercedes-Benz ; Output:",
+  countVehicles(vehicles, "Mercedes-Benz")
+);
 console.log("Input: MG ; Output:", countVehicles(vehicles, "MG"));
 console.log("Input: Mini ; Output:", countVehicles(vehicles, "Mini"));
 console.log("Input: NIO ; Output:", countVehicles(vehicles, "NIO"));
 console.log("Input: Nissan ; Output:", countVehicles(vehicles, "Nissan"));
 console.log("Input: Opel ; Output:", countVehicles(vehicles, "Opel"));
 console.log("Input: Peugeot ; Output:", countVehicles(vehicles, "Peugeot"));
-console.log("Input: Pininfarina ; Output:", countVehicles(vehicles, "Pininfarina"));
+console.log(
+  "Input: Pininfarina ; Output:",
+  countVehicles(vehicles, "Pininfarina")
+);
 console.log("Input: Polestar ; Output:", countVehicles(vehicles, "Polestar"));
 console.log("Input: Porsche ; Output:", countVehicles(vehicles, "Porsche"));
 console.log("Input: Renault ; Output:", countVehicles(vehicles, "Renault"));
@@ -104,7 +141,10 @@ console.log("Input: Subaru ; Output:", countVehicles(vehicles, "Subaru"));
 console.log("Input: Tesla ; Output:", countVehicles(vehicles, "Tesla"));
 console.log("Input: Toyota ; Output:", countVehicles(vehicles, "Toyota"));
 console.log("Input: VinFast ; Output:", countVehicles(vehicles, "VinFast"));
-console.log("Input: Volkswagen ; Output:", countVehicles(vehicles, "Volkswagen"));
+console.log(
+  "Input: Volkswagen ; Output:",
+  countVehicles(vehicles, "Volkswagen")
+);
 console.log("Input: Volvo ; Output:", countVehicles(vehicles, "Volvo"));
 console.log("Input: XPeng ; Output:", countVehicles(vehicles, "XPeng"));
 console.log("Input: Zeekr ; Output:", countVehicles(vehicles, "Zeekr"));
