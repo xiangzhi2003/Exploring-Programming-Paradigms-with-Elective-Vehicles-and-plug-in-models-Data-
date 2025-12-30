@@ -52,3 +52,7 @@ function countVehiclesByManufacturer(data, manufacturer) {
     // Return the final count
     return count;
 }
+
+// Test Operation 1
+console.log('\n===== OPERATION 1: Count Vehicles by Manufacturer =====');
+console.log('Input: Mini ; Output:', countVehiclesByManufacturer(vehicles, 'Mini'));
