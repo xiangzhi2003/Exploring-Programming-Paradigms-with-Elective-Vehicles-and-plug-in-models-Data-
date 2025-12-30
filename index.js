@@ -172,3 +172,7 @@ function listModelsByManufacturer(data, manufacturer) {
   }
   console.log("Total models found:", models.length);
 }
+
+// Test Operation 2
+console.log("\n===== OPERATION 2: List Models by Manufacturer =====");
+listModelsByManufacturer(vehicles, "BMW");
