@@ -1,5 +1,5 @@
 // ============================================================
-// APLC Javascript Assignment Phase 1 - Imperative Programming Paradigm
+// APLC Assignment Phase 1 - Imperative Programming Paradigm
 // ============================================================
 // Student: [Chiang Xiang Zhi]
 // Student ID: [TP077553]
