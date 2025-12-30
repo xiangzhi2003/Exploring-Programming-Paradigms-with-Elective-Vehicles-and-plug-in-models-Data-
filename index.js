@@ -145,3 +145,13 @@ console.log(
 console.log("Input: Volvo ; Output:", countVehiclesByManufacturer(vehicles, "Volvo"));
 console.log("Input: XPeng ; Output:", countVehiclesByManufacturer(vehicles, "XPeng"));
 console.log("Input: Zeekr ; Output:", countVehiclesByManufacturer(vehicles, "Zeekr"));
+
+// ============================================================
+// OPERATION 2: List Models by Manufacturer
+// Purpose: Find and print all model names for a specific manufacturer
+// Input: data array, manufacturer name (string)
+// Output: prints model names to console
+// ============================================================
+function listModelsByManufacturer(data, manufacturer) {
+  // TODO: Implement model listing logic
+}
