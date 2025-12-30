@@ -37,5 +37,18 @@ console.log('='.repeat(50));
 // Output: count (number)
 // ============================================================
 function countVehiclesByManufacturer(data, manufacturer) {
-    // TODO: Implement counting logic
+    // Initialize counter variable to zero
+    let count = 0;
+
+    // Use for loop to iterate through each vehicle in the data array
+    for (let i = 0; i < data.length; i++) {
+        // Check if current vehicle's manufacturer matches the input
+        if (data[i].Manufacturer === manufacturer) {
+            // Increment counter when match is found
+            count = count + 1;
+        }
+    }
+
+    // Return the final count
+    return count;
 }
