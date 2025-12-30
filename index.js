@@ -148,31 +148,91 @@ console.log("Input: Zeekr ; Output:", countVehiclesByManufacturer(vehicles, "Zee
 
 // ============================================================
 // OPERATION 2: List Models by Manufacturer
-// Purpose: Find and print all model names for a specific manufacturer
+// Purpose: Find and print all unique model names for a specific manufacturer
 // Input: data array, manufacturer name (string)
-// Output: prints model names to console
+// Output: prints unique model names to console with numbered list
 // ============================================================
 function listModelsByManufacturer(data, manufacturer) {
-  // Initialize empty array to store matching models
+  // Initialize empty array to store unique models
   let models = [];
 
   // Use for loop to iterate through all vehicles
   for (let i = 0; i < data.length; i++) {
     // Check if manufacturer matches
     if (data[i].Manufacturer === manufacturer) {
-      // Add the model name to our array
-      models[models.length] = data[i].Model;
+      // Check if model already exists in array (avoid duplicates)
+      let found = false;
+      for (let j = 0; j < models.length; j++) {
+        if (models[j] === data[i].Model) {
+          found = true;
+        }
+      }
+      // Only add if not found (unique)
+      if (found === false) {
+        models[models.length] = data[i].Model;
+      }
     }
   }
 
-  // Print each model on a separate line using for loop
-  console.log("Models for " + manufacturer + ":");
-  for (let j = 0; j < models.length; j++) {
-    console.log("  - " + models[j]);
+  // Print with numbered list
+  console.log("Input: " + manufacturer + " ; Output:");
+  for (let k = 0; k < models.length; k++) {
+    console.log("  " + (k + 1) + ". " + models[k]);
   }
-  console.log("Total models found:", models.length);
 }
 
-// Test Operation 2
+// Test Operation 2 - Display models for ALL manufacturers (A-Z order)
 console.log("\n===== OPERATION 2: List Models by Manufacturer =====");
+listModelsByManufacturer(vehicles, "Acura");
+listModelsByManufacturer(vehicles, "Audi");
 listModelsByManufacturer(vehicles, "BMW");
+listModelsByManufacturer(vehicles, "BYD");
+listModelsByManufacturer(vehicles, "Cadillac");
+listModelsByManufacturer(vehicles, "Canoo");
+listModelsByManufacturer(vehicles, "Changan");
+listModelsByManufacturer(vehicles, "Chevrolet");
+listModelsByManufacturer(vehicles, "Citroen");
+listModelsByManufacturer(vehicles, "Dacia");
+listModelsByManufacturer(vehicles, "Faraday Future");
+listModelsByManufacturer(vehicles, "Ferrari");
+listModelsByManufacturer(vehicles, "Fisker");
+listModelsByManufacturer(vehicles, "Ford");
+listModelsByManufacturer(vehicles, "Geely");
+listModelsByManufacturer(vehicles, "Genesis");
+listModelsByManufacturer(vehicles, "GMC");
+listModelsByManufacturer(vehicles, "Great Wall Motors");
+listModelsByManufacturer(vehicles, "Honda");
+listModelsByManufacturer(vehicles, "Hyundai");
+listModelsByManufacturer(vehicles, "Jaguar");
+listModelsByManufacturer(vehicles, "Jeep");
+listModelsByManufacturer(vehicles, "Kia");
+listModelsByManufacturer(vehicles, "Lamborghini");
+listModelsByManufacturer(vehicles, "Li Auto");
+listModelsByManufacturer(vehicles, "Lotus");
+listModelsByManufacturer(vehicles, "Lucid Motors");
+listModelsByManufacturer(vehicles, "Mahindra");
+listModelsByManufacturer(vehicles, "Maserati");
+listModelsByManufacturer(vehicles, "Mazda");
+listModelsByManufacturer(vehicles, "Mercedes-Benz");
+listModelsByManufacturer(vehicles, "MG");
+listModelsByManufacturer(vehicles, "Mini");
+listModelsByManufacturer(vehicles, "NIO");
+listModelsByManufacturer(vehicles, "Nissan");
+listModelsByManufacturer(vehicles, "Opel");
+listModelsByManufacturer(vehicles, "Peugeot");
+listModelsByManufacturer(vehicles, "Pininfarina");
+listModelsByManufacturer(vehicles, "Polestar");
+listModelsByManufacturer(vehicles, "Porsche");
+listModelsByManufacturer(vehicles, "Renault");
+listModelsByManufacturer(vehicles, "Rimac");
+listModelsByManufacturer(vehicles, "Rivian");
+listModelsByManufacturer(vehicles, "Seat");
+listModelsByManufacturer(vehicles, "Skoda");
+listModelsByManufacturer(vehicles, "Subaru");
+listModelsByManufacturer(vehicles, "Tesla");
+listModelsByManufacturer(vehicles, "Toyota");
+listModelsByManufacturer(vehicles, "VinFast");
+listModelsByManufacturer(vehicles, "Volkswagen");
+listModelsByManufacturer(vehicles, "Volvo");
+listModelsByManufacturer(vehicles, "XPeng");
+listModelsByManufacturer(vehicles, "Zeekr");
