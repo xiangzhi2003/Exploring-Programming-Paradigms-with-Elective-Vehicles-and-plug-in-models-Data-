@@ -50,19 +50,16 @@ console.log("=".repeat(50));
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // ============================================================
-// OPERATION 1: Count Vehicles by Manufacturer or Model
-// Purpose: Count how many vehicles match a specific manufacturer OR model name
-// Input: data array, search term (string) - can be manufacturer or model name
-// Output: count (number)
+// OPERATION 1: Display the total number of vehicles produced by each manufacturing company.
 // ============================================================
-function countVehicles(data, searchTerm) {
+function countVehiclesByManufacturer(data, manufacturer) {
   // Initialize counter variable to zero
   let count = 0;
 
   // Use for loop to iterate through each vehicle in the data array
   for (let i = 0; i < data.length; i++) {
-    // Check if current vehicle's Manufacturer OR Model matches the input
-    if (data[i].Manufacturer === searchTerm || data[i].Model === searchTerm) {
+    // Check if current vehicle's Manufacturer matches the input
+    if (data[i].Manufacturer === manufacturer) {
       // Increment counter when match is found
       count = count + 1;
     }
@@ -74,77 +71,77 @@ function countVehicles(data, searchTerm) {
 
 // Test Operation 1 - Display count for ALL manufacturers (A-Z order)
 console.log("\n===== OPERATION 1: Count Vehicles by Manufacturer =====");
-console.log("Input: Acura ; Output:", countVehicles(vehicles, "Acura"));
-console.log("Input: Audi ; Output:", countVehicles(vehicles, "Audi"));
-console.log("Input: BMW ; Output:", countVehicles(vehicles, "BMW"));
-console.log("Input: BYD ; Output:", countVehicles(vehicles, "BYD"));
-console.log("Input: Cadillac ; Output:", countVehicles(vehicles, "Cadillac"));
-console.log("Input: Canoo ; Output:", countVehicles(vehicles, "Canoo"));
-console.log("Input: Changan ; Output:", countVehicles(vehicles, "Changan"));
-console.log("Input: Chevrolet ; Output:", countVehicles(vehicles, "Chevrolet"));
-console.log("Input: Citroen ; Output:", countVehicles(vehicles, "Citroen"));
-console.log("Input: Dacia ; Output:", countVehicles(vehicles, "Dacia"));
+console.log("Input: Acura ; Output:", countVehiclesByManufacturer(vehicles, "Acura"));
+console.log("Input: Audi ; Output:", countVehiclesByManufacturer(vehicles, "Audi"));
+console.log("Input: BMW ; Output:", countVehiclesByManufacturer(vehicles, "BMW"));
+console.log("Input: BYD ; Output:", countVehiclesByManufacturer(vehicles, "BYD"));
+console.log("Input: Cadillac ; Output:", countVehiclesByManufacturer(vehicles, "Cadillac"));
+console.log("Input: Canoo ; Output:", countVehiclesByManufacturer(vehicles, "Canoo"));
+console.log("Input: Changan ; Output:", countVehiclesByManufacturer(vehicles, "Changan"));
+console.log("Input: Chevrolet ; Output:", countVehiclesByManufacturer(vehicles, "Chevrolet"));
+console.log("Input: Citroen ; Output:", countVehiclesByManufacturer(vehicles, "Citroen"));
+console.log("Input: Dacia ; Output:", countVehiclesByManufacturer(vehicles, "Dacia"));
 console.log(
   "Input: Faraday Future ; Output:",
-  countVehicles(vehicles, "Faraday Future")
+  countVehiclesByManufacturer(vehicles, "Faraday Future")
 );
-console.log("Input: Ferrari ; Output:", countVehicles(vehicles, "Ferrari"));
-console.log("Input: Fisker ; Output:", countVehicles(vehicles, "Fisker"));
-console.log("Input: Ford ; Output:", countVehicles(vehicles, "Ford"));
-console.log("Input: Geely ; Output:", countVehicles(vehicles, "Geely"));
-console.log("Input: Genesis ; Output:", countVehicles(vehicles, "Genesis"));
-console.log("Input: GMC ; Output:", countVehicles(vehicles, "GMC"));
+console.log("Input: Ferrari ; Output:", countVehiclesByManufacturer(vehicles, "Ferrari"));
+console.log("Input: Fisker ; Output:", countVehiclesByManufacturer(vehicles, "Fisker"));
+console.log("Input: Ford ; Output:", countVehiclesByManufacturer(vehicles, "Ford"));
+console.log("Input: Geely ; Output:", countVehiclesByManufacturer(vehicles, "Geely"));
+console.log("Input: Genesis ; Output:", countVehiclesByManufacturer(vehicles, "Genesis"));
+console.log("Input: GMC ; Output:", countVehiclesByManufacturer(vehicles, "GMC"));
 console.log(
   "Input: Great Wall Motors ; Output:",
-  countVehicles(vehicles, "Great Wall Motors")
+  countVehiclesByManufacturer(vehicles, "Great Wall Motors")
 );
-console.log("Input: Honda ; Output:", countVehicles(vehicles, "Honda"));
-console.log("Input: Hyundai ; Output:", countVehicles(vehicles, "Hyundai"));
-console.log("Input: Jaguar ; Output:", countVehicles(vehicles, "Jaguar"));
-console.log("Input: Jeep ; Output:", countVehicles(vehicles, "Jeep"));
-console.log("Input: Kia ; Output:", countVehicles(vehicles, "Kia"));
+console.log("Input: Honda ; Output:", countVehiclesByManufacturer(vehicles, "Honda"));
+console.log("Input: Hyundai ; Output:", countVehiclesByManufacturer(vehicles, "Hyundai"));
+console.log("Input: Jaguar ; Output:", countVehiclesByManufacturer(vehicles, "Jaguar"));
+console.log("Input: Jeep ; Output:", countVehiclesByManufacturer(vehicles, "Jeep"));
+console.log("Input: Kia ; Output:", countVehiclesByManufacturer(vehicles, "Kia"));
 console.log(
   "Input: Lamborghini ; Output:",
-  countVehicles(vehicles, "Lamborghini")
+  countVehiclesByManufacturer(vehicles, "Lamborghini")
 );
-console.log("Input: Li Auto ; Output:", countVehicles(vehicles, "Li Auto"));
-console.log("Input: Lotus ; Output:", countVehicles(vehicles, "Lotus"));
+console.log("Input: Li Auto ; Output:", countVehiclesByManufacturer(vehicles, "Li Auto"));
+console.log("Input: Lotus ; Output:", countVehiclesByManufacturer(vehicles, "Lotus"));
 console.log(
   "Input: Lucid Motors ; Output:",
-  countVehicles(vehicles, "Lucid Motors")
+  countVehiclesByManufacturer(vehicles, "Lucid Motors")
 );
-console.log("Input: Mahindra ; Output:", countVehicles(vehicles, "Mahindra"));
-console.log("Input: Maserati ; Output:", countVehicles(vehicles, "Maserati"));
-console.log("Input: Mazda ; Output:", countVehicles(vehicles, "Mazda"));
+console.log("Input: Mahindra ; Output:", countVehiclesByManufacturer(vehicles, "Mahindra"));
+console.log("Input: Maserati ; Output:", countVehiclesByManufacturer(vehicles, "Maserati"));
+console.log("Input: Mazda ; Output:", countVehiclesByManufacturer(vehicles, "Mazda"));
 console.log(
   "Input: Mercedes-Benz ; Output:",
-  countVehicles(vehicles, "Mercedes-Benz")
+  countVehiclesByManufacturer(vehicles, "Mercedes-Benz")
 );
-console.log("Input: MG ; Output:", countVehicles(vehicles, "MG"));
-console.log("Input: Mini ; Output:", countVehicles(vehicles, "Mini"));
-console.log("Input: NIO ; Output:", countVehicles(vehicles, "NIO"));
-console.log("Input: Nissan ; Output:", countVehicles(vehicles, "Nissan"));
-console.log("Input: Opel ; Output:", countVehicles(vehicles, "Opel"));
-console.log("Input: Peugeot ; Output:", countVehicles(vehicles, "Peugeot"));
+console.log("Input: MG ; Output:", countVehiclesByManufacturer(vehicles, "MG"));
+console.log("Input: Mini ; Output:", countVehiclesByManufacturer(vehicles, "Mini"));
+console.log("Input: NIO ; Output:", countVehiclesByManufacturer(vehicles, "NIO"));
+console.log("Input: Nissan ; Output:", countVehiclesByManufacturer(vehicles, "Nissan"));
+console.log("Input: Opel ; Output:", countVehiclesByManufacturer(vehicles, "Opel"));
+console.log("Input: Peugeot ; Output:", countVehiclesByManufacturer(vehicles, "Peugeot"));
 console.log(
   "Input: Pininfarina ; Output:",
-  countVehicles(vehicles, "Pininfarina")
+  countVehiclesByManufacturer(vehicles, "Pininfarina")
 );
-console.log("Input: Polestar ; Output:", countVehicles(vehicles, "Polestar"));
-console.log("Input: Porsche ; Output:", countVehicles(vehicles, "Porsche"));
-console.log("Input: Renault ; Output:", countVehicles(vehicles, "Renault"));
-console.log("Input: Rimac ; Output:", countVehicles(vehicles, "Rimac"));
-console.log("Input: Rivian ; Output:", countVehicles(vehicles, "Rivian"));
-console.log("Input: Seat ; Output:", countVehicles(vehicles, "Seat"));
-console.log("Input: Skoda ; Output:", countVehicles(vehicles, "Skoda"));
-console.log("Input: Subaru ; Output:", countVehicles(vehicles, "Subaru"));
-console.log("Input: Tesla ; Output:", countVehicles(vehicles, "Tesla"));
-console.log("Input: Toyota ; Output:", countVehicles(vehicles, "Toyota"));
-console.log("Input: VinFast ; Output:", countVehicles(vehicles, "VinFast"));
+console.log("Input: Polestar ; Output:", countVehiclesByManufacturer(vehicles, "Polestar"));
+console.log("Input: Porsche ; Output:", countVehiclesByManufacturer(vehicles, "Porsche"));
+console.log("Input: Renault ; Output:", countVehiclesByManufacturer(vehicles, "Renault"));
+console.log("Input: Rimac ; Output:", countVehiclesByManufacturer(vehicles, "Rimac"));
+console.log("Input: Rivian ; Output:", countVehiclesByManufacturer(vehicles, "Rivian"));
+console.log("Input: Seat ; Output:", countVehiclesByManufacturer(vehicles, "Seat"));
+console.log("Input: Skoda ; Output:", countVehiclesByManufacturer(vehicles, "Skoda"));
+console.log("Input: Subaru ; Output:", countVehiclesByManufacturer(vehicles, "Subaru"));
+console.log("Input: Tesla ; Output:", countVehiclesByManufacturer(vehicles, "Tesla"));
+console.log("Input: Toyota ; Output:", countVehiclesByManufacturer(vehicles, "Toyota"));
+console.log("Input: VinFast ; Output:", countVehiclesByManufacturer(vehicles, "VinFast"));
 console.log(
   "Input: Volkswagen ; Output:",
-  countVehicles(vehicles, "Volkswagen")
+  countVehiclesByManufacturer(vehicles, "Volkswagen")
 );
-console.log("Input: Volvo ; Output:", countVehicles(vehicles, "Volvo"));
-console.log("Input: XPeng ; Output:", countVehicles(vehicles, "XPeng"));
-console.log("Input: Zeekr ; Output:", countVehicles(vehicles, "Zeekr"));
+console.log("Input: Volvo ; Output:", countVehiclesByManufacturer(vehicles, "Volvo"));
+console.log("Input: XPeng ; Output:", countVehiclesByManufacturer(vehicles, "XPeng"));
+console.log("Input: Zeekr ; Output:", countVehiclesByManufacturer(vehicles, "Zeekr"));
