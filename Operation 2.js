@@ -60,8 +60,8 @@ function listModelsByManufacturer(data, manufacturer) {
   }
 
   // Print with numbered list
-  console.log("Input: " + manufacturer);
-  console.log("Output:");
+  console.log("Manufacturer: " + manufacturer);
+  console.log("Models:");
   for (let k = 0; k < models.length; k++) {
     console.log("  " + (k + 1) + ". " + models[k]);
   }
