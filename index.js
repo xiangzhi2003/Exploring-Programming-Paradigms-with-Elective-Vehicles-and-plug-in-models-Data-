@@ -70,7 +70,7 @@ function countVehiclesByManufacturer(data, manufacturer) {
 }
 
 // Test Operation 1 - Display count for ALL manufacturers (A-Z order)
-console.log("\n===== OPERATION 1: Count Vehicles by Manufacturer =====");
+console.log("\n===== OPERATION 1: Display the total number of vehicles produced by each manufacturing company. =====");
 console.log("Input: Acura ; Output:", countVehiclesByManufacturer(vehicles, "Acura"));
 console.log("Input: Audi ; Output:", countVehiclesByManufacturer(vehicles, "Audi"));
 console.log("Input: BMW ; Output:", countVehiclesByManufacturer(vehicles, "BMW"));
