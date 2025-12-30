@@ -60,16 +60,19 @@ function listModelsByManufacturer(data, manufacturer) {
   }
 
   // Print with numbered list
-  console.log("Input: " + manufacturer + " ; Output:");
+  console.log("Input: " + manufacturer);
+  console.log("Output:");
   for (let k = 0; k < models.length; k++) {
     console.log("  " + (k + 1) + ". " + models[k]);
   }
 }
 
 // Test Operation 2 - Interactive user input
-console.log("\n===== OPERATION 2: List Models by Manufacturer =====");
+console.log(
+  "\n===== OPERATION 2: Search and display the list of models available from a specific manufacturing company. ====="
+);
 console.log("Please enter a manufacturer from the following list:");
-console.log(uniqueManufacturers.join(", "));
+console.log(uniqueManufacturers);
 
 rl.question("Enter manufacturer : ", function (answer) {
   listModelsByManufacturer(vehicles, answer);
