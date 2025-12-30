@@ -164,5 +164,11 @@ function listModelsByManufacturer(data, manufacturer) {
       models[models.length] = data[i].Model;
     }
   }
-  // TODO: Add printing logic
+
+  // Print each model on a separate line using for loop
+  console.log("Models for " + manufacturer + ":");
+  for (let j = 0; j < models.length; j++) {
+    console.log("  - " + models[j]);
+  }
+  console.log("Total models found:", models.length);
 }
