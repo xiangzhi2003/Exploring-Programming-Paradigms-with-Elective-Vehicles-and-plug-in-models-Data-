@@ -62,3 +62,9 @@ function findTopSafest2025Vehicles(data) {
     );
   }
 }
+
+// Execute Operation 5
+console.log(
+  "\n===== OPERATION 5: Rank the top 5 safest vehicles from year 2025. ====="
+);
+findTopSafest2025Vehicles(vehicles);
