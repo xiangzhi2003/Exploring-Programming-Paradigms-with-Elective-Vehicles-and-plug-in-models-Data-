@@ -46,3 +46,17 @@ console.log(
   "\n===== OPERATION 6: Find the best-selling electric vehicle in 2024. ====="
 );
 findBestSellingEV2024(vehicles);
+
+// Display all vehicles with units sold
+console.log("\n--- All Vehicles Units Sold in 2024 ---");
+for (let i = 0; i < vehicles.length; i++) {
+  console.log(
+    (i + 1) +
+      ". " +
+      vehicles[i].Manufacturer +
+      " " +
+      vehicles[i].Model +
+      " - Units Sold: " +
+      vehicles[i].Units_Sold_2024
+  );
+}
