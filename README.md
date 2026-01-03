@@ -1,4 +1,4 @@
-# APLC Assignment Phase 1 - Imperative Programming
+# APLC Assignment Phase 1 - Imperative Programming (COMPLETED)
 
 ## Project Overview
 Electric Vehicle Data Processing using **Imperative Programming** paradigm in Node.js.
