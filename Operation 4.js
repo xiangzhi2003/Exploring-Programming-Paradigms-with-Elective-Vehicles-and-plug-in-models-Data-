@@ -36,5 +36,23 @@ function calculateAverageChargeTime(data, chargingType) {
   let totalChargeTime = 0;
   let count = 0;
 
-  // TODO: Add loop logic to calculate average
+  // Use for loop to iterate through all vehicles
+  for (let i = 0; i < data.length; i++) {
+    // Check if charging type matches
+    if (data[i].Charging_Type === chargingType) {
+      totalChargeTime = totalChargeTime + data[i].Charge_Time_hr;
+      count = count + 1;
+    }
+  }
+
+  // Calculate and print result
+  if (count === 0) {
+    console.log("Charging Type: " + chargingType);
+    console.log("Output: No vehicles found with this charging type");
+  } else {
+    let averageChargeTime = totalChargeTime / count;
+    console.log("Charging Type: " + chargingType);
+    console.log("Number of Vehicles: " + count);
+    console.log("Average Charge Time: " + averageChargeTime.toFixed(2) + " hours");
+  }
 }
