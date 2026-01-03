@@ -19,5 +19,12 @@ function findTopSafest2025Vehicles(data) {
   // Step 1: Filter vehicles from year 2025
   let vehicles2025 = [];
 
-  // TODO: Add loop to filter 2025 vehicles
+  // Use for loop to filter only 2025 vehicles
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].Year === 2025) {
+      vehicles2025[vehicles2025.length] = data[i];
+    }
+  }
+
+  // TODO: Add sorting logic
 }
