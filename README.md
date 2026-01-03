@@ -1,4 +1,4 @@
-# APLC Assignment Phase 1 - Imperative Programming (COMPLETED)
+# APLC Assignment Phase 1 - Imperative Programming
 
 ## Project Overview
 Electric Vehicle Data Processing using **Imperative Programming** paradigm in Node.js.
@@ -67,3 +67,6 @@ node "Operation 6.js"
 
 ## GitHub Repository
 https://github.com/xiangzhi2003/Exploring-Programming-Paradigms-with-Elective-Vehicles-and-plug-in-models-Data-.git
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
