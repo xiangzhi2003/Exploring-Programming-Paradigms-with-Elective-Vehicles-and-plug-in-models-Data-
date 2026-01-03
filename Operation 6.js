@@ -40,3 +40,9 @@ function findBestSellingEV2024(data) {
     console.log("  Price: $" + bestSellingVehicle.Price_USD);
   }
 }
+
+// Execute Operation 6
+console.log(
+  "\n===== OPERATION 6: Find the best-selling electric vehicle in 2024. ====="
+);
+findBestSellingEV2024(vehicles);
