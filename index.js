@@ -47,6 +47,39 @@ for (let i = 0; i < vehicles.length; i++) {
 }
 console.log("\nManufacturers in dataset:", uniqueManufacturers, "\n");
 console.log("=".repeat(50));
+
+// Show all models for each manufacturer
+console.log("\n===== All Models by Manufacturer =====\n");
+
+for (let m = 0; m < uniqueManufacturers.length; m++) {
+  let currentManufacturer = uniqueManufacturers[m];
+  let models = [];
+
+  // Find all unique models for this manufacturer
+  for (let i = 0; i < vehicles.length; i++) {
+    if (vehicles[i].Manufacturer === currentManufacturer) {
+      // Check if model already exists
+      let found = false;
+      for (let j = 0; j < models.length; j++) {
+        if (models[j] === vehicles[i].Model) {
+          found = true;
+        }
+      }
+      if (found === false) {
+        models[models.length] = vehicles[i].Model;
+      }
+    }
+  }
+
+  // Display manufacturer and its models
+  console.log(currentManufacturer + ":");
+  for (let k = 0; k < models.length; k++) {
+    console.log("  " + (k + 1) + ". " + models[k]);
+  }
+  console.log("");
+}
+
+console.log("=".repeat(50));
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
