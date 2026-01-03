@@ -26,5 +26,18 @@ function findTopSafest2025Vehicles(data) {
     }
   }
 
-  // TODO: Add sorting logic
+  // Step 2: Sort by Safety_Rating using bubble sort (descending order)
+  for (let i = 0; i < vehicles2025.length - 1; i++) {
+    for (let j = 0; j < vehicles2025.length - 1 - i; j++) {
+      // Compare safety ratings - swap if current is less than next
+      if (vehicles2025[j].Safety_Rating < vehicles2025[j + 1].Safety_Rating) {
+        // Swap vehicles
+        let temp = vehicles2025[j];
+        vehicles2025[j] = vehicles2025[j + 1];
+        vehicles2025[j + 1] = temp;
+      }
+    }
+  }
+
+  // TODO: Add display logic for top 5
 }
