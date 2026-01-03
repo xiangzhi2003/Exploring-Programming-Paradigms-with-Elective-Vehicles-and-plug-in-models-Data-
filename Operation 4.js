@@ -23,3 +23,18 @@ for (let i = 0; i < vehicles.length; i++) {
 }
 
 console.log("Unique Charging Types:", uniqueChargingTypes);
+
+// ============================================================
+// OPERATION 4: Calculate Average Charge Time by Charging Type
+// Purpose: Calculate the average charging time for a specific charging type
+// Input: data array, charging type (string)
+// Output: prints average charge time to console
+// ============================================================
+
+function calculateAverageChargeTime(data, chargingType) {
+  // Initialize variables to track total charge time and count
+  let totalChargeTime = 0;
+  let count = 0;
+
+  // TODO: Add loop logic to calculate average
+}
