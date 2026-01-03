@@ -77,19 +77,40 @@ function findTopSafest2025Vehicles(data) {
     );
   }
 
-  // Step 4: Display all other 2025 vehicles with their safety ratings
-  console.log("\n--- All Other 2025 Vehicles with Safety Ratings ---");
+  // Step 4: Display all other 2025 vehicles grouped by manufacturer
+  console.log("\n--- All Other 2025 Vehicles with Safety Ratings (by Manufacturer) ---");
+
+  // Get unique manufacturers from remaining vehicles
+  let remainingManufacturers = [];
   for (let r = displayCount; r < vehicles2025.length; r++) {
-    console.log(
-      "  " +
-        (r + 1) +
-        ". " +
-        vehicles2025[r].Manufacturer +
-        " " +
-        vehicles2025[r].Model +
-        " - Safety Rating: " +
-        vehicles2025[r].Safety_Rating
-    );
+    let found = false;
+    for (let s = 0; s < remainingManufacturers.length; s++) {
+      if (remainingManufacturers[s] === vehicles2025[r].Manufacturer) {
+        found = true;
+      }
+    }
+    if (found === false) {
+      remainingManufacturers[remainingManufacturers.length] = vehicles2025[r].Manufacturer;
+    }
+  }
+
+  // Display vehicles grouped by manufacturer
+  for (let m = 0; m < remainingManufacturers.length; m++) {
+    console.log("\n" + remainingManufacturers[m] + ":");
+    let count = 1;
+    for (let v = displayCount; v < vehicles2025.length; v++) {
+      if (vehicles2025[v].Manufacturer === remainingManufacturers[m]) {
+        console.log(
+          "  " +
+            count +
+            ". " +
+            vehicles2025[v].Model +
+            " - Safety Rating: " +
+            vehicles2025[v].Safety_Rating
+        );
+        count = count + 1;
+      }
+    }
   }
 }
 
