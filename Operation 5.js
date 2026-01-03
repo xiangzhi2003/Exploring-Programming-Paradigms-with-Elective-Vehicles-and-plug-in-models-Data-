@@ -8,6 +8,21 @@ const rawData = fs.readFileSync("electric_vehicles_dataset.json", "utf8");
 // Parse the JSON string into a JavaScript array of objects
 const vehicles = JSON.parse(rawData);
 
+// List all unique safety ratings from the JSON file
+let uniqueSafetyRatings = [];
+for (let i = 0; i < vehicles.length; i++) {
+  let found = false;
+  for (let j = 0; j < uniqueSafetyRatings.length; j++) {
+    if (uniqueSafetyRatings[j] === vehicles[i].Safety_Rating) {
+      found = true;
+    }
+  }
+  if (found === false) {
+    uniqueSafetyRatings[uniqueSafetyRatings.length] = vehicles[i].Safety_Rating;
+  }
+}
+console.log("All Safety Ratings in dataset:", uniqueSafetyRatings);
+
 // ============================================================
 // OPERATION 5: Rank Top 5 Safest 2025 Vehicles
 // Purpose: Find and rank the top 5 vehicles from 2025 with highest safety rating
