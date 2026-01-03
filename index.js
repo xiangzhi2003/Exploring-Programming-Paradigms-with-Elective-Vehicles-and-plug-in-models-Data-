@@ -12,6 +12,14 @@
 // - mutable variables (let/var)
 //
 // PROHIBITED: .map(), .filter(), .reduce(), .find(), .forEach(), .sort()
+//
+// Operations:
+// 1. Count vehicles by manufacturer (Operation 1.js)
+// 2. List models by manufacturer - interactive (Operation 2.js)
+// 3. Find longest range model per manufacturer - interactive (Operation 3.js)
+// 4. Calculate average charge time by charging type - interactive (Operation 4.js)
+// 5. Rank top 5 safest 2025 vehicles (Operation 5.js)
+// 6. Find best-selling EV in 2024 (Operation 6.js)
 // ============================================================
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
