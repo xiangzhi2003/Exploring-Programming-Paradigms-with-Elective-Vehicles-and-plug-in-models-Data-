@@ -7,3 +7,18 @@ const rawData = fs.readFileSync("electric_vehicles_dataset.json", "utf8");
 
 // Parse the JSON string into a JavaScript array of objects
 const vehicles = JSON.parse(rawData);
+
+// ============================================================
+// OPERATION 6: Find Best Selling EV in 2024
+// Purpose: Find the vehicle with the highest Units_Sold_2024
+// Input: data array
+// Output: prints best selling vehicle details to console
+// ============================================================
+
+function findBestSellingEV2024(data) {
+  // Initialize variables to track best selling vehicle
+  let bestSellingVehicle = null;
+  let highestSales = 0;
+
+  // TODO: Add loop to find best selling vehicle
+}
