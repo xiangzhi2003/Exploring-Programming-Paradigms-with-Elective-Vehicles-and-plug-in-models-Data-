@@ -22,8 +22,6 @@ for (let i = 0; i < vehicles.length; i++) {
   }
 }
 
-console.log("Unique Charging Types:", uniqueChargingTypes);
-
 // ============================================================
 // OPERATION 4: Calculate Average Charge Time by Charging Type
 // Purpose: Calculate the average charging time for a specific charging type
@@ -56,3 +54,24 @@ function calculateAverageChargeTime(data, chargingType) {
     console.log("Average Charge Time: " + averageChargeTime.toFixed(2) + " hours");
   }
 }
+
+// Import readline module for user input
+const readline = require("readline");
+
+// Create readline interface for interactive input
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+// Test Operation 4 - Interactive user input
+console.log(
+  "\n===== OPERATION 4: Calculate the average charging time for a specific charging type. ====="
+);
+console.log("Please enter a charging type from the following list:");
+console.log(uniqueChargingTypes);
+
+rl.question("Enter charging type: ", function (answer) {
+  calculateAverageChargeTime(vehicles, answer);
+  rl.close();
+});
