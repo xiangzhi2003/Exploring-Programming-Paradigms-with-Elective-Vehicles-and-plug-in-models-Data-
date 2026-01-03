@@ -39,5 +39,26 @@ function findTopSafest2025Vehicles(data) {
     }
   }
 
-  // TODO: Add display logic for top 5
+  // Step 3: Display top 5 safest vehicles
+  console.log("Top 5 Safest 2025 Vehicles:");
+
+  // Determine how many to display (max 5 or less if fewer vehicles)
+  let displayCount = 5;
+  if (vehicles2025.length < 5) {
+    displayCount = vehicles2025.length;
+  }
+
+  // Display the top vehicles with ranking
+  for (let k = 0; k < displayCount; k++) {
+    console.log(
+      "  " +
+        (k + 1) +
+        ". " +
+        vehicles2025[k].Manufacturer +
+        " " +
+        vehicles2025[k].Model +
+        " - Safety Rating: " +
+        vehicles2025[k].Safety_Rating
+    );
+  }
 }
