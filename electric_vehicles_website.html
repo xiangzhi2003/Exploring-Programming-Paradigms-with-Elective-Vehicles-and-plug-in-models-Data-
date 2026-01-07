@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electric Vehicles Analysis - APLC Phase 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            color: #aaa;
+            font-size: 1.1rem;
+        }
+
+        .student-info {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00d9ff;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .operations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .operation-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .operation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
+        }
+
+        .operation-card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #00d9ff;
+        }
+
+        .operation-card p {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #00d9ff;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
+            color: #000;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border-left: 4px solid #00d9ff;
+            display: none;
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .result-box h3 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: #00ff88;
+        }
+
+        .result-box pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+
+        .result-item {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-highlight {
+            color: #00d9ff;
+            font-weight: bold;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: #aaa;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            border-left-color: #ff4444;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table th,
+        table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        table th {
+            color: #00d9ff;
+            font-weight: bold;
+        }
+
+        .rank-badge {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            line-height: 25px;
+            text-align: center;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
+            color: #000;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .operations-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-bar {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Electric Vehicles Analysis</h1>
+            <p>APLC Assignment Phase 1 - Imperative Programming Paradigm</p>
+            <div class="student-info">
+                Student: Chiang Xiang Zhi | Student ID: TP077553 | Date: 30th December 2025
+            </div>
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalVehicles">-</div>
+                    <div class="stat-label">Total Vehicles</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="totalManufacturers">-</div>
+                    <div class="stat-label">Manufacturers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="totalChargingTypes">-</div>
+                    <div class="stat-label">Charging Types</div>
+                </div>
+            </div>
+        </header>
+
+        <div id="loadingMessage" class="loading">
+            Loading vehicle data...
+        </div>
+
+        <div id="mainContent" style="display: none;">
+            <div class="operations-grid">
+                <!-- Operation 1 -->
+                <div class="operation-card">
+                    <h2>Operation 1: Vehicle Count by Manufacturer</h2>
+                    <p>Display the total number of vehicles produced by each manufacturing company.</p>
+                    <div class="form-group">
+                        <label>Select Manufacturer:</label>
+                        <select id="op1Manufacturer">
+                            <option value="">-- Select Manufacturer --</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="runOperation1()">Count Vehicles</button>
+                    <div id="op1Result" class="result-box"></div>
+                </div>
+
+                <!-- Operation 2 -->
+                <div class="operation-card">
+                    <h2>Operation 2: Models by Manufacturer</h2>
+                    <p>Search and display the list of models available from a specific manufacturing company.</p>
+                    <div class="form-group">
+                        <label>Select Manufacturer:</label>
+                        <select id="op2Manufacturer">
+                            <option value="">-- Select Manufacturer --</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="runOperation2()">List Models</button>
+                    <div id="op2Result" class="result-box"></div>
+                </div>
+
+                <!-- Operation 3 -->
+                <div class="operation-card">
+                    <h2>Operation 3: Longest Range Model</h2>
+                    <p>Find the model with the longest range (km) for a specific manufacturer.</p>
+                    <div class="form-group">
+                        <label>Select Manufacturer:</label>
+                        <select id="op3Manufacturer">
+                            <option value="">-- Select Manufacturer --</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="runOperation3()">Find Longest Range</button>
+                    <div id="op3Result" class="result-box"></div>
+                </div>
+
+                <!-- Operation 4 -->
+                <div class="operation-card">
+                    <h2>Operation 4: Average Charging Time</h2>
+                    <p>Calculate the average charging time for a specific charging type.</p>
+                    <div class="form-group">
+                        <label>Select Charging Type:</label>
+                        <select id="op4ChargingType">
+                            <option value="">-- Select Charging Type --</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="runOperation4()">Calculate Average</button>
+                    <div id="op4Result" class="result-box"></div>
+                </div>
+
+                <!-- Operation 5 -->
+                <div class="operation-card">
+                    <h2>Operation 5: Top 5 Safest 2025 Vehicles</h2>
+                    <p>Rank the top 5 safest vehicles from year 2025.</p>
+                    <button class="btn" onclick="runOperation5()">Show Top 5 Safest</button>
+                    <div id="op5Result" class="result-box"></div>
+                </div>
+
+                <!-- Operation 6 -->
+                <div class="operation-card">
+                    <h2>Operation 6: Best-Selling EV in 2024</h2>
+                    <p>Find the best-selling electric vehicle in 2024.</p>
+                    <button class="btn" onclick="runOperation6()">Find Best Seller</button>
+                    <div id="op6Result" class="result-box"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variable to store vehicle data
+        let vehicles = [];
+
+        // Load data when page loads
+        window.onload = function() {
+            loadData();
+        };
+
+        // ============================================================
+        // DATA LOADING
+        // ============================================================
+        function loadData() {
+            // Fetch the JSON file
+            fetch('electric_vehicles_dataset.json')
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    vehicles = data;
+                    initializeUI();
+                })
+                .catch(function(error) {
+                    document.getElementById('loadingMessage').innerHTML =
+                        '<span style="color: #ff4444;">Error loading data. Make sure the JSON file is in the same directory.</span>';
+                });
+        }
+
+        // ============================================================
+        // UI INITIALIZATION
+        // ============================================================
+        function initializeUI() {
+            // Hide loading, show main content
+            document.getElementById('loadingMessage').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+
+            // Get unique manufacturers using imperative approach
+            let uniqueManufacturers = [];
+            for (let i = 0; i < vehicles.length; i++) {
+                let found = false;
+                for (let j = 0; j < uniqueManufacturers.length; j++) {
+                    if (uniqueManufacturers[j] === vehicles[i].Manufacturer) {
+                        found = true;
+                    }
+                }
+                if (found === false) {
+                    uniqueManufacturers[uniqueManufacturers.length] = vehicles[i].Manufacturer;
+                }
+            }
+
+            // Sort manufacturers alphabetically using bubble sort
+            for (let i = 0; i < uniqueManufacturers.length - 1; i++) {
+                for (let j = 0; j < uniqueManufacturers.length - 1 - i; j++) {
+                    if (uniqueManufacturers[j] > uniqueManufacturers[j + 1]) {
+                        let temp = uniqueManufacturers[j];
+                        uniqueManufacturers[j] = uniqueManufacturers[j + 1];
+                        uniqueManufacturers[j + 1] = temp;
+                    }
+                }
+            }
+
+            // Get unique charging types using imperative approach
+            let uniqueChargingTypes = [];
+            for (let i = 0; i < vehicles.length; i++) {
+                let found = false;
+                for (let j = 0; j < uniqueChargingTypes.length; j++) {
+                    if (uniqueChargingTypes[j] === vehicles[i].Charging_Type) {
+                        found = true;
+                    }
+                }
+                if (found === false) {
+                    uniqueChargingTypes[uniqueChargingTypes.length] = vehicles[i].Charging_Type;
+                }
+            }
+
+            // Sort charging types alphabetically using bubble sort
+            for (let i = 0; i < uniqueChargingTypes.length - 1; i++) {
+                for (let j = 0; j < uniqueChargingTypes.length - 1 - i; j++) {
+                    if (uniqueChargingTypes[j] > uniqueChargingTypes[j + 1]) {
+                        let temp = uniqueChargingTypes[j];
+                        uniqueChargingTypes[j] = uniqueChargingTypes[j + 1];
+                        uniqueChargingTypes[j + 1] = temp;
+                    }
+                }
+            }
+
+            // Update stats
+            document.getElementById('totalVehicles').textContent = vehicles.length;
+            document.getElementById('totalManufacturers').textContent = uniqueManufacturers.length;
+            document.getElementById('totalChargingTypes').textContent = uniqueChargingTypes.length;
+
+            // Populate manufacturer dropdowns
+            let manufacturerSelects = [
+                document.getElementById('op1Manufacturer'),
+                document.getElementById('op2Manufacturer'),
+                document.getElementById('op3Manufacturer')
+            ];
+
+            for (let s = 0; s < manufacturerSelects.length; s++) {
+                for (let i = 0; i < uniqueManufacturers.length; i++) {
+                    let option = document.createElement('option');
+                    option.value = uniqueManufacturers[i];
+                    option.textContent = uniqueManufacturers[i];
+                    manufacturerSelects[s].appendChild(option);
+                }
+            }
+
+            // Populate charging type dropdown
+            let chargingSelect = document.getElementById('op4ChargingType');
+            for (let i = 0; i < uniqueChargingTypes.length; i++) {
+                let option = document.createElement('option');
+                option.value = uniqueChargingTypes[i];
+                option.textContent = uniqueChargingTypes[i];
+                chargingSelect.appendChild(option);
+            }
+        }
+
+        // ============================================================
+        // OPERATION 1: Count vehicles by manufacturer
+        // ============================================================
+        function countVehiclesByManufacturer(data, manufacturer) {
+            // Initialize counter variable to zero
+            let count = 0;
+
+            // Use for loop to iterate through each vehicle in the data array
+            for (let i = 0; i < data.length; i++) {
+                // Check if current vehicle's Manufacturer matches the input
+                if (data[i].Manufacturer === manufacturer) {
+                    // Increment counter when match is found
+                    count = count + 1;
+                }
+            }
+
+            // Return the final count
+            return count;
+        }
+
+        function runOperation1() {
+            let manufacturer = document.getElementById('op1Manufacturer').value;
+            let resultBox = document.getElementById('op1Result');
+
+            if (manufacturer === '') {
+                resultBox.className = 'result-box show error';
+                resultBox.innerHTML = '<h3>Error</h3><pre>Please select a manufacturer.</pre>';
+                return;
+            }
+
+            let count = countVehiclesByManufacturer(vehicles, manufacturer);
+
+            resultBox.className = 'result-box show';
+            resultBox.innerHTML = '<h3>Result</h3>' +
+                '<div class="result-item">' +
+                '<span class="result-highlight">Manufacturer:</span> ' + manufacturer +
+                '</div>' +
+                '<div class="result-item">' +
+                '<span class="result-highlight">Total Vehicles:</span> ' + count +
+                '</div>';
+        }
+
+        // ============================================================
+        // OPERATION 2: List models by manufacturer
+        // ============================================================
+        function listModelsByManufacturer(data, manufacturer) {
+            // Initialize empty array to store unique models
+            let models = [];
+
+            // Use for loop to iterate through all vehicles
+            for (let i = 0; i < data.length; i++) {
+                // Check if manufacturer matches
+                if (data[i].Manufacturer === manufacturer) {
+                    // Check if model already exists in array (avoid duplicates)
+                    let found = false;
+                    for (let j = 0; j < models.length; j++) {
+                        if (models[j] === data[i].Model) {
+                            found = true;
+                        }
+                    }
+                    // Only add if not found (unique)
+                    if (found === false) {
+                        models[models.length] = data[i].Model;
+                    }
+                }
+            }
+
+            return models;
+        }
+
+        function runOperation2() {
+            let manufacturer = document.getElementById('op2Manufacturer').value;
+            let resultBox = document.getElementById('op2Result');
+
+            if (manufacturer === '') {
+                resultBox.className = 'result-box show error';
+                resultBox.innerHTML = '<h3>Error</h3><pre>Please select a manufacturer.</pre>';
+                return;
+            }
+
+            let models = listModelsByManufacturer(vehicles, manufacturer);
+
+            let html = '<h3>Result</h3>' +
+                '<div class="result-item">' +
+                '<span class="result-highlight">Manufacturer:</span> ' + manufacturer +
+                '</div>' +
+                '<div class="result-item">' +
+                '<span class="result-highlight">Total Models:</span> ' + models.length +
+                '</div><br>';
+
+            if (models.length > 0) {
+                html += '<strong>Models:</strong><br>';
+                for (let i = 0; i < models.length; i++) {
+                    html += '<div class="result-item">' + (i + 1) + '. ' + models[i] + '</div>';
+                }
+            } else {
+                html += '<div class="result-item">No models found.</div>';
+            }
+
+            resultBox.className = 'result-box show';
+            resultBox.innerHTML = html;
+        }
+
+        // ============================================================
+        // OPERATION 3: Find longest range model
+        // ============================================================
+        function findLongestRangeModel(data, manufacturer) {
+            // Initialize variables to track the longest range model
+            let longestRangeModel = "";
+            let longestRange = 0;
+
+            // Use for loop to iterate through all vehicles
+            for (let i = 0; i < data.length; i++) {
+                // Check if manufacturer matches
+                if (data[i].Manufacturer === manufacturer) {
+                    // Check if current vehicle has longer range
+                    if (data[i].Range_km > longestRange) {
+                        longestRange = data[i].Range_km;
+                        longestRangeModel = data[i].Model;
+                    }
+                }
+            }
+
+            return {
+                model: longestRangeModel,
+                range: longestRange
+            };
+        }
+
+        function runOperation3() {
+            let manufacturer = document.getElementById('op3Manufacturer').value;
+            let resultBox = document.getElementById('op3Result');
+
+            if (manufacturer === '') {
+                resultBox.className = 'result-box show error';
+                resultBox.innerHTML = '<h3>Error</h3><pre>Please select a manufacturer.</pre>';
+                return;
+            }
+
+            let result = findLongestRangeModel(vehicles, manufacturer);
+
+            let html = '<h3>Result</h3>' +
+                '<div class="result-item">' +
+                '<span class="result-highlight">Manufacturer:</span> ' + manufacturer +
+                '</div>';
+
+            if (result.model === "") {
+                html += '<div class="result-item">No vehicles found for this manufacturer.</div>';
+            } else {
+                html += '<div class="result-item">' +
+                    '<span class="result-highlight">Longest Range Model:</span> ' + result.model +
+                    '</div>' +
+                    '<div class="result-item">' +
+                    '<span class="result-highlight">Range:</span> ' + result.range + ' km' +
+                    '</div>';
+            }
+
+            resultBox.className = 'result-box show';
+            resultBox.innerHTML = html;
+        }
+
+        // ============================================================
+        // OPERATION 4: Calculate average charge time
+        // ============================================================
+        function calculateAverageChargeTime(data, chargingType) {
+            // Initialize variables to track total charge time and count
+            let totalChargeTime = 0;
+            let count = 0;
+
+            // Use for loop to iterate through all vehicles
+            for (let i = 0; i < data.length; i++) {
+                // Check if charging type matches
+                if (data[i].Charging_Type === chargingType) {
+                    totalChargeTime = totalChargeTime + data[i].Charge_Time_hr;
+                    count = count + 1;
+                }
+            }
+
+            // Calculate average
+            if (count === 0) {
+                return { average: 0, count: 0 };
+            } else {
+                return {
+                    average: totalChargeTime / count,
+                    count: count
+                };
+            }
+        }
+
+        function runOperation4() {
+            let chargingType = document.getElementById('op4ChargingType').value;
+            let resultBox = document.getElementById('op4Result');
+
+            if (chargingType === '') {
+                resultBox.className = 'result-box show error';
+                resultBox.innerHTML = '<h3>Error</h3><pre>Please select a charging type.</pre>';
+                return;
+            }
+
+            let result = calculateAverageChargeTime(vehicles, chargingType);
+
+            let html = '<h3>Result</h3>' +
+                '<div class="result-item">' +
+                '<span class="result-highlight">Charging Type:</span> ' + chargingType +
+                '</div>';
+
+            if (result.count === 0) {
+                html += '<div class="result-item">No vehicles found with this charging type.</div>';
+            } else {
+                html += '<div class="result-item">' +
+                    '<span class="result-highlight">Number of Vehicles:</span> ' + result.count +
+                    '</div>' +
+                    '<div class="result-item">' +
+                    '<span class="result-highlight">Average Charge Time:</span> ' + result.average.toFixed(2) + ' hours' +
+                    '</div>';
+            }
+
+            resultBox.className = 'result-box show';
+            resultBox.innerHTML = html;
+        }
+
+        // ============================================================
+        // OPERATION 5: Top 5 safest 2025 vehicles
+        // ============================================================
+        function findTopSafest2025Vehicles(data) {
+            // Step 1: Filter vehicles from year 2025
+            let vehicles2025 = [];
+
+            // Use for loop to filter only 2025 vehicles
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].Year === 2025) {
+                    vehicles2025[vehicles2025.length] = data[i];
+                }
+            }
+
+            // Step 2: Sort by Safety_Rating using bubble sort (descending order)
+            for (let i = 0; i < vehicles2025.length - 1; i++) {
+                for (let j = 0; j < vehicles2025.length - 1 - i; j++) {
+                    // Compare safety ratings - swap if current is less than next
+                    if (vehicles2025[j].Safety_Rating < vehicles2025[j + 1].Safety_Rating) {
+                        // Swap vehicles
+                        let temp = vehicles2025[j];
+                        vehicles2025[j] = vehicles2025[j + 1];
+                        vehicles2025[j + 1] = temp;
+                    }
+                }
+            }
+
+            // Step 3: Return top 5
+            let top5 = [];
+            let displayCount = 5;
+            if (vehicles2025.length < 5) {
+                displayCount = vehicles2025.length;
+            }
+
+            for (let k = 0; k < displayCount; k++) {
+                top5[top5.length] = vehicles2025[k];
+            }
+
+            return top5;
+        }
+
+        function runOperation5() {
+            let resultBox = document.getElementById('op5Result');
+            let top5 = findTopSafest2025Vehicles(vehicles);
+
+            let html = '<h3>Top 5 Safest 2025 Vehicles</h3>';
+
+            if (top5.length === 0) {
+                html += '<div class="result-item">No 2025 vehicles found in the dataset.</div>';
+            } else {
+                html += '<table>' +
+                    '<tr><th>Rank</th><th>Manufacturer</th><th>Model</th><th>Safety Rating</th></tr>';
+
+                for (let i = 0; i < top5.length; i++) {
+                    html += '<tr>' +
+                        '<td><span class="rank-badge">' + (i + 1) + '</span></td>' +
+                        '<td>' + top5[i].Manufacturer + '</td>' +
+                        '<td>' + top5[i].Model + '</td>' +
+                        '<td>' + top5[i].Safety_Rating + '</td>' +
+                        '</tr>';
+                }
+
+                html += '</table>';
+            }
+
+            resultBox.className = 'result-box show';
+            resultBox.innerHTML = html;
+        }
+
+        // ============================================================
+        // OPERATION 6: Best selling EV in 2024
+        // ============================================================
+        function findBestSellingEV2024(data) {
+            // Initialize variables to track best selling vehicle
+            let bestSellingVehicle = null;
+            let highestSales = 0;
+
+            // Use for loop to find vehicle with highest sales
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].Units_Sold_2024 > highestSales) {
+                    highestSales = data[i].Units_Sold_2024;
+                    bestSellingVehicle = data[i];
+                }
+            }
+
+            return bestSellingVehicle;
+        }
+
+        function runOperation6() {
+            let resultBox = document.getElementById('op6Result');
+            let bestSeller = findBestSellingEV2024(vehicles);
+
+            let html = '<h3>Best Selling EV in 2024</h3>';
+
+            if (bestSeller === null) {
+                html += '<div class="result-item">No vehicles found in the dataset.</div>';
+            } else {
+                html += '<div class="result-item">' +
+                    '<span class="result-highlight">Manufacturer:</span> ' + bestSeller.Manufacturer +
+                    '</div>' +
+                    '<div class="result-item">' +
+                    '<span class="result-highlight">Model:</span> ' + bestSeller.Model +
+                    '</div>' +
+                    '<div class="result-item">' +
+                    '<span class="result-highlight">Units Sold:</span> ' + bestSeller.Units_Sold_2024.toLocaleString() +
+                    '</div>' +
+                    '<div class="result-item">' +
+                    '<span class="result-highlight">Year:</span> ' + bestSeller.Year +
+                    '</div>' +
+                    '<div class="result-item">' +
+                    '<span class="result-highlight">Price:</span> $' + bestSeller.Price_USD.toLocaleString() +
+                    '</div>';
+            }
+
+            resultBox.className = 'result-box show';
+            resultBox.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
