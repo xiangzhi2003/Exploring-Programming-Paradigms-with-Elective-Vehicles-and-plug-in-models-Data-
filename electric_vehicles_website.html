@@ -244,30 +244,14 @@
     </div>
 
     <script>
-        // Global Variables
+        // ============================================================
+        // OPERATION 1: Display total number of vehicles by manufacturer
+        // (uniqueManufacturers is also used by Operation 2 and 3)
+        // ============================================================
         let vehicles = [];
         let uniqueManufacturers = [];
-        let uniqueChargingTypes = [];
 
-        // Page Load
-        window.onload = function() { loadData(); };
-
-        // Load Data
-        function loadData() {
-            fetch('electric_vehicles_dataset.json')
-                .then(function(response) { return response.json(); })
-                .then(function(data) {
-                    vehicles = data;
-                    extractUniqueValues();
-                    initializeUI();
-                })
-                .catch(function(error) {
-                    document.getElementById('loadingMessage').innerHTML = '<div class="error-box"><div class="error-icon">⚠️</div>Error loading data. Please ensure the JSON file is in the same directory.</div>';
-                });
-        }
-
-        // Extract Unique Values
-        function extractUniqueValues() {
+        function extractUniqueManufacturers() {
             uniqueManufacturers = [];
             for (let i = 0; i < vehicles.length; i++) {
                 let found = false;
@@ -285,35 +269,9 @@
                     }
                 }
             }
-
-            uniqueChargingTypes = [];
-            for (let i = 0; i < vehicles.length; i++) {
-                let found = false;
-                for (let j = 0; j < uniqueChargingTypes.length; j++) {
-                    if (uniqueChargingTypes[j] === vehicles[i].Charging_Type) { found = true; }
-                }
-                if (found === false) { uniqueChargingTypes[uniqueChargingTypes.length] = vehicles[i].Charging_Type; }
-            }
-            for (let i = 0; i < uniqueChargingTypes.length - 1; i++) {
-                for (let j = 0; j < uniqueChargingTypes.length - 1 - i; j++) {
-                    if (uniqueChargingTypes[j] > uniqueChargingTypes[j + 1]) {
-                        let temp = uniqueChargingTypes[j];
-                        uniqueChargingTypes[j] = uniqueChargingTypes[j + 1];
-                        uniqueChargingTypes[j + 1] = temp;
-                    }
-                }
-            }
-
         }
 
-        // Initialize UI
-        function initializeUI() {
-            document.getElementById('loadingMessage').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'block';
-            document.getElementById('totalVehicles').textContent = vehicles.length.toLocaleString();
-            document.getElementById('totalManufacturers').textContent = uniqueManufacturers.length;
-            document.getElementById('totalChargingTypes').textContent = uniqueChargingTypes.length;
-
+        function populateManufacturerDropdowns() {
             let manufacturerSelects = [document.getElementById('op1Manufacturer'), document.getElementById('op2Manufacturer'), document.getElementById('op3Manufacturer')];
             for (let s = 0; s < manufacturerSelects.length; s++) {
                 for (let i = 0; i < uniqueManufacturers.length; i++) {
@@ -323,36 +281,8 @@
                     manufacturerSelects[s].appendChild(option);
                 }
             }
-
-            let chargingSelect = document.getElementById('op4ChargingType');
-            for (let i = 0; i < uniqueChargingTypes.length; i++) {
-                let option = document.createElement('option');
-                option.value = uniqueChargingTypes[i];
-                option.textContent = uniqueChargingTypes[i];
-                chargingSelect.appendChild(option);
-            }
         }
 
-        // Navigation
-        function showPanel(panelNumber) {
-            for (let i = 1; i <= 6; i++) { document.getElementById('panel' + i).className = 'operation-panel'; }
-            let tabs = document.getElementsByClassName('nav-tab');
-            for (let i = 0; i < tabs.length; i++) { tabs[i].className = 'nav-tab'; }
-            document.getElementById('panel' + panelNumber).className = 'operation-panel active';
-            tabs[panelNumber - 1].className = 'nav-tab active';
-        }
-
-        // Helper: Generate Stars
-        function generateStars(rating) {
-            let stars = '';
-            for (let i = 0; i < 5; i++) { if (i < rating) { stars += '★'; } else { stars += '☆'; } }
-            return stars;
-        }
-
-
-        // ============================================================
-        // OPERATION 1: Display total number of vehicles by manufacturer
-        // ============================================================
         function countVehiclesByManufacturer(data, manufacturer) {
             let count = 0;
             for (let i = 0; i < data.length; i++) {
@@ -473,7 +403,14 @@
 
         // ============================================================
         // OPERATION 3: Find longest range model for manufacturer
+        // (generateStars helper is also used by Operation 5 and 6)
         // ============================================================
+        function generateStars(rating) {
+            let stars = '';
+            for (let i = 0; i < 5; i++) { if (i < rating) { stars += '★'; } else { stars += '☆'; } }
+            return stars;
+        }
+
         function findLongestRangeVehicle(data, manufacturer) {
             let bestVehicle = null;
             let longestRange = 0;
@@ -517,6 +454,38 @@
         // ============================================================
         // OPERATION 4: Calculate average charging time by type
         // ============================================================
+        let uniqueChargingTypes = [];
+
+        function extractUniqueChargingTypes() {
+            uniqueChargingTypes = [];
+            for (let i = 0; i < vehicles.length; i++) {
+                let found = false;
+                for (let j = 0; j < uniqueChargingTypes.length; j++) {
+                    if (uniqueChargingTypes[j] === vehicles[i].Charging_Type) { found = true; }
+                }
+                if (found === false) { uniqueChargingTypes[uniqueChargingTypes.length] = vehicles[i].Charging_Type; }
+            }
+            for (let i = 0; i < uniqueChargingTypes.length - 1; i++) {
+                for (let j = 0; j < uniqueChargingTypes.length - 1 - i; j++) {
+                    if (uniqueChargingTypes[j] > uniqueChargingTypes[j + 1]) {
+                        let temp = uniqueChargingTypes[j];
+                        uniqueChargingTypes[j] = uniqueChargingTypes[j + 1];
+                        uniqueChargingTypes[j + 1] = temp;
+                    }
+                }
+            }
+        }
+
+        function populateChargingTypeDropdown() {
+            let chargingSelect = document.getElementById('op4ChargingType');
+            for (let i = 0; i < uniqueChargingTypes.length; i++) {
+                let option = document.createElement('option');
+                option.value = uniqueChargingTypes[i];
+                option.textContent = uniqueChargingTypes[i];
+                chargingSelect.appendChild(option);
+            }
+        }
+
         function calculateAverageChargeTime(data, chargingType) {
             let totalChargeTime = 0; let count = 0; let minTime = 999999; let maxTime = 0;
             for (let i = 0; i < data.length; i++) {
@@ -687,6 +656,40 @@
             resultBox.className = 'result-box show';
             resultBox.innerHTML = html;
         }
+
+
+        // ============================================================
+        // PAGE LOAD: Load data and initialize UI
+        // ============================================================
+        function showPanel(panelNumber) {
+            for (let i = 1; i <= 6; i++) { document.getElementById('panel' + i).className = 'operation-panel'; }
+            let tabs = document.getElementsByClassName('nav-tab');
+            for (let i = 0; i < tabs.length; i++) { tabs[i].className = 'nav-tab'; }
+            document.getElementById('panel' + panelNumber).className = 'operation-panel active';
+            tabs[panelNumber - 1].className = 'nav-tab active';
+        }
+
+        function loadData() {
+            fetch('electric_vehicles_dataset.json')
+                .then(function(response) { return response.json(); })
+                .then(function(data) {
+                    vehicles = data;
+                    extractUniqueManufacturers();
+                    extractUniqueChargingTypes();
+                    document.getElementById('loadingMessage').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'block';
+                    document.getElementById('totalVehicles').textContent = vehicles.length.toLocaleString();
+                    document.getElementById('totalManufacturers').textContent = uniqueManufacturers.length;
+                    document.getElementById('totalChargingTypes').textContent = uniqueChargingTypes.length;
+                    populateManufacturerDropdowns();
+                    populateChargingTypeDropdown();
+                })
+                .catch(function(error) {
+                    document.getElementById('loadingMessage').innerHTML = '<div class="error-box"><div class="error-icon">⚠️</div>Error loading data. Please ensure the JSON file is in the same directory.</div>';
+                });
+        }
+
+        window.onload = function() { loadData(); };
     </script>
 </body>
 </html>
