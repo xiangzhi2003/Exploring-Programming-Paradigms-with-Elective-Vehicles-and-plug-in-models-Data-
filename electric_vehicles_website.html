@@ -248,11 +248,18 @@
         // OPERATION 1: Display total number of vehicles by manufacturer
         // (uniqueManufacturers is also used by Operation 2 and 3)
         // ============================================================
+
+        // vehicles: Array to store all vehicle data from JSON file
         let vehicles = [];
+
+        // uniqueManufacturers: Array to store unique manufacturer names (used by Op 1, 2, 3)
         let uniqueManufacturers = [];
 
+        // extractUniqueManufacturers: Extract unique manufacturer names from vehicles array
+        // Uses nested for loop to find unique values, then bubble sort to sort alphabetically
         function extractUniqueManufacturers() {
             uniqueManufacturers = [];
+            // Loop through all vehicles to find unique manufacturers
             for (let i = 0; i < vehicles.length; i++) {
                 let found = false;
                 for (let j = 0; j < uniqueManufacturers.length; j++) {
@@ -260,6 +267,7 @@
                 }
                 if (found === false) { uniqueManufacturers[uniqueManufacturers.length] = vehicles[i].Manufacturer; }
             }
+            // Sort manufacturers alphabetically using bubble sort
             for (let i = 0; i < uniqueManufacturers.length - 1; i++) {
                 for (let j = 0; j < uniqueManufacturers.length - 1 - i; j++) {
                     if (uniqueManufacturers[j] > uniqueManufacturers[j + 1]) {
@@ -271,6 +279,8 @@
             }
         }
 
+        // populateManufacturerDropdowns: Fill dropdown menus with manufacturer options
+        // Populates dropdowns for Operation 1, 2, and 3
         function populateManufacturerDropdowns() {
             let manufacturerSelects = [document.getElementById('op1Manufacturer'), document.getElementById('op2Manufacturer'), document.getElementById('op3Manufacturer')];
             for (let s = 0; s < manufacturerSelects.length; s++) {
@@ -283,6 +293,9 @@
             }
         }
 
+        // countVehiclesByManufacturer: Count how many vehicles belong to a specific manufacturer
+        // Parameters: data (array), manufacturer (string)
+        // Returns: count (number)
         function countVehiclesByManufacturer(data, manufacturer) {
             let count = 0;
             for (let i = 0; i < data.length; i++) {
@@ -291,12 +304,15 @@
             return count;
         }
 
+        // getAllManufacturerCounts: Get vehicle counts for all manufacturers
+        // Returns array of objects sorted by count (highest first) using bubble sort
         function getAllManufacturerCounts(data) {
             let results = [];
             for (let m = 0; m < uniqueManufacturers.length; m++) {
                 let count = countVehiclesByManufacturer(data, uniqueManufacturers[m]);
                 results[results.length] = { manufacturer: uniqueManufacturers[m], count: count };
             }
+            // Sort by count descending using bubble sort
             for (let i = 0; i < results.length - 1; i++) {
                 for (let j = 0; j < results.length - 1 - i; j++) {
                     if (results[j].count < results[j + 1].count) {
@@ -307,6 +323,8 @@
             return results;
         }
 
+        // runOperation1: Execute Operation 1 - Display vehicle count by manufacturer
+        // Gets selected manufacturer, counts vehicles, and displays results
         function runOperation1() {
             let manufacturer = document.getElementById('op1Manufacturer').value;
             let resultBox = document.getElementById('op1Result');
@@ -351,6 +369,10 @@
         // ============================================================
         // OPERATION 2: List models by manufacturer
         // ============================================================
+
+        // getModelDetails: Get all unique models for a specific manufacturer
+        // Parameters: data (array), manufacturer (string)
+        // Returns: array of model objects with name, minPrice, maxPrice, count
         function getModelDetails(data, manufacturer) {
             let models = [];
             for (let i = 0; i < data.length; i++) {
@@ -372,6 +394,8 @@
             return models;
         }
 
+        // runOperation2: Execute Operation 2 - List all models by manufacturer
+        // Gets selected manufacturer and displays list of models with price ranges
         function runOperation2() {
             let manufacturer = document.getElementById('op2Manufacturer').value;
             let resultBox = document.getElementById('op2Result');
@@ -405,12 +429,20 @@
         // OPERATION 3: Find longest range model for manufacturer
         // (generateStars helper is also used by Operation 5 and 6)
         // ============================================================
+
+        // generateStars: Convert numeric safety rating to star symbols
+        // Parameters: rating (number 1-5)
+        // Returns: string of filled and empty stars (e.g., "★★★☆☆")
+        // Used by Operation 3, 5, and 6
         function generateStars(rating) {
             let stars = '';
             for (let i = 0; i < 5; i++) { if (i < rating) { stars += '★'; } else { stars += '☆'; } }
             return stars;
         }
 
+        // findLongestRangeVehicle: Find vehicle with longest range for a manufacturer
+        // Parameters: data (array), manufacturer (string)
+        // Returns: vehicle object with longest Range_km, or null if not found
         function findLongestRangeVehicle(data, manufacturer) {
             let bestVehicle = null;
             let longestRange = 0;
@@ -425,6 +457,8 @@
             return bestVehicle;
         }
 
+        // runOperation3: Execute Operation 3 - Find longest range model
+        // Gets selected manufacturer and displays vehicle with longest range
         function runOperation3() {
             let manufacturer = document.getElementById('op3Manufacturer').value;
             let resultBox = document.getElementById('op3Result');
@@ -454,8 +488,12 @@
         // ============================================================
         // OPERATION 4: Calculate average charging time by type
         // ============================================================
+
+        // uniqueChargingTypes: Array to store unique charging type names
         let uniqueChargingTypes = [];
 
+        // extractUniqueChargingTypes: Extract unique charging types from vehicles array
+        // Uses nested for loop to find unique values, then bubble sort to sort alphabetically
         function extractUniqueChargingTypes() {
             uniqueChargingTypes = [];
             for (let i = 0; i < vehicles.length; i++) {
@@ -476,6 +514,8 @@
             }
         }
 
+        // populateChargingTypeDropdown: Fill dropdown menu with charging type options
+        // Populates dropdown for Operation 4
         function populateChargingTypeDropdown() {
             let chargingSelect = document.getElementById('op4ChargingType');
             for (let i = 0; i < uniqueChargingTypes.length; i++) {
@@ -486,6 +526,9 @@
             }
         }
 
+        // calculateAverageChargeTime: Calculate average charging time for a specific charging type
+        // Parameters: data (array), chargingType (string)
+        // Returns: object with average, count, min, max values
         function calculateAverageChargeTime(data, chargingType) {
             let totalChargeTime = 0; let count = 0; let minTime = 999999; let maxTime = 0;
             for (let i = 0; i < data.length; i++) {
@@ -500,6 +543,8 @@
             return { average: totalChargeTime / count, count: count, min: minTime, max: maxTime };
         }
 
+        // getAllChargingTypeStats: Get charging time statistics for all charging types
+        // Returns array of objects sorted by average time (fastest first) using bubble sort
         function getAllChargingTypeStats(data) {
             let results = [];
             for (let c = 0; c < uniqueChargingTypes.length; c++) {
@@ -508,6 +553,7 @@
                     results[results.length] = { type: uniqueChargingTypes[c], average: stats.average, count: stats.count, min: stats.min, max: stats.max };
                 }
             }
+            // Sort by average time ascending (fastest first) using bubble sort
             for (let i = 0; i < results.length - 1; i++) {
                 for (let j = 0; j < results.length - 1 - i; j++) {
                     if (results[j].average > results[j + 1].average) {
@@ -518,6 +564,8 @@
             return results;
         }
 
+        // runOperation4: Execute Operation 4 - Calculate average charging time
+        // Gets selected charging type and displays charging time statistics
         function runOperation4() {
             let chargingType = document.getElementById('op4ChargingType').value;
             let resultBox = document.getElementById('op4Result');
@@ -556,11 +604,18 @@
         // ============================================================
         // OPERATION 5: Rank top 5 safest vehicles from 2025
         // ============================================================
+
+        // findTopSafest2025Vehicles: Find and rank top 5 safest vehicles from year 2025
+        // Parameters: data (array)
+        // Returns: object with top5 array and total2025 count
+        // Uses bubble sort to sort by Safety_Rating descending
         function findTopSafest2025Vehicles(data) {
+            // Step 1: Filter only 2025 vehicles
             let vehicles2025 = [];
             for (let i = 0; i < data.length; i++) {
                 if (data[i].Year === 2025) { vehicles2025[vehicles2025.length] = data[i]; }
             }
+            // Step 2: Sort by Safety_Rating descending using bubble sort
             for (let i = 0; i < vehicles2025.length - 1; i++) {
                 for (let j = 0; j < vehicles2025.length - 1 - i; j++) {
                     if (vehicles2025[j].Safety_Rating < vehicles2025[j + 1].Safety_Rating) {
@@ -568,6 +623,7 @@
                     }
                 }
             }
+            // Step 3: Get top 5 (or less if fewer vehicles)
             let top5 = [];
             let displayCount = 5;
             if (vehicles2025.length < 5) { displayCount = vehicles2025.length; }
@@ -575,6 +631,8 @@
             return { top5: top5, total2025: vehicles2025.length };
         }
 
+        // runOperation5: Execute Operation 5 - Rank top 5 safest 2025 vehicles
+        // Displays table of top 5 safest vehicles from year 2025
         function runOperation5() {
             let resultBox = document.getElementById('op5Result');
             let result = findTopSafest2025Vehicles(vehicles);
@@ -599,6 +657,10 @@
         // ============================================================
         // OPERATION 6: Find best-selling EV in 2024
         // ============================================================
+
+        // findBestSellingEV2024: Find the vehicle with highest Units_Sold_2024
+        // Parameters: data (array)
+        // Returns: object with best-selling vehicle and total sales across all vehicles
         function findBestSellingEV2024(data) {
             let bestVehicle = null; let highestSales = 0; let totalSales = 0;
             for (let i = 0; i < data.length; i++) {
@@ -611,9 +673,15 @@
             return { vehicle: bestVehicle, totalSales: totalSales };
         }
 
+        // getTopSellers: Get top N best-selling vehicles
+        // Parameters: data (array), count (number of top sellers to return)
+        // Returns: array of top selling vehicles sorted by Units_Sold_2024 descending
+        // Uses bubble sort to sort by sales
         function getTopSellers(data, count) {
+            // Copy array to avoid modifying original
             let sorted = [];
             for (let i = 0; i < data.length; i++) { sorted[sorted.length] = data[i]; }
+            // Sort by Units_Sold_2024 descending using bubble sort
             for (let i = 0; i < sorted.length - 1; i++) {
                 for (let j = 0; j < sorted.length - 1 - i; j++) {
                     if (sorted[j].Units_Sold_2024 < sorted[j + 1].Units_Sold_2024) {
@@ -621,6 +689,7 @@
                     }
                 }
             }
+            // Get top N vehicles
             let top = [];
             let limit = count;
             if (sorted.length < count) { limit = sorted.length; }
@@ -628,6 +697,8 @@
             return top;
         }
 
+        // runOperation6: Execute Operation 6 - Find best-selling EV in 2024
+        // Displays best-selling vehicle with details and top 5 sellers table
         function runOperation6() {
             let resultBox = document.getElementById('op6Result');
             let result = findBestSellingEV2024(vehicles);
@@ -661,34 +732,50 @@
         // ============================================================
         // PAGE LOAD: Load data and initialize UI
         // ============================================================
+
+        // showPanel: Switch between operation panels (tab navigation)
+        // Parameters: panelNumber (1-6)
+        // Hides all panels and shows the selected one, updates tab styling
         function showPanel(panelNumber) {
+            // Hide all panels
             for (let i = 1; i <= 6; i++) { document.getElementById('panel' + i).className = 'operation-panel'; }
+            // Remove active class from all tabs
             let tabs = document.getElementsByClassName('nav-tab');
             for (let i = 0; i < tabs.length; i++) { tabs[i].className = 'nav-tab'; }
+            // Show selected panel and highlight tab
             document.getElementById('panel' + panelNumber).className = 'operation-panel active';
             tabs[panelNumber - 1].className = 'nav-tab active';
         }
 
+        // loadData: Fetch JSON data and initialize the application
+        // Loads vehicle data from JSON file, extracts unique values, and sets up UI
         function loadData() {
             fetch('electric_vehicles_dataset.json')
                 .then(function(response) { return response.json(); })
                 .then(function(data) {
+                    // Store vehicle data
                     vehicles = data;
+                    // Extract unique values for dropdowns (Operation 1 and 4)
                     extractUniqueManufacturers();
                     extractUniqueChargingTypes();
+                    // Hide loading message and show main content
                     document.getElementById('loadingMessage').style.display = 'none';
                     document.getElementById('mainContent').style.display = 'block';
+                    // Update statistics in header
                     document.getElementById('totalVehicles').textContent = vehicles.length.toLocaleString();
                     document.getElementById('totalManufacturers').textContent = uniqueManufacturers.length;
                     document.getElementById('totalChargingTypes').textContent = uniqueChargingTypes.length;
+                    // Populate dropdown menus
                     populateManufacturerDropdowns();
                     populateChargingTypeDropdown();
                 })
                 .catch(function(error) {
+                    // Show error message if data loading fails
                     document.getElementById('loadingMessage').innerHTML = '<div class="error-box"><div class="error-icon">⚠️</div>Error loading data. Please ensure the JSON file is in the same directory.</div>';
                 });
         }
 
+        // window.onload: Start the application when page loads
         window.onload = function() { loadData(); };
     </script>
 </body>
