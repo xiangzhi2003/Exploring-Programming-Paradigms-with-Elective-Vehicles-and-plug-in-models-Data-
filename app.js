@@ -753,6 +753,10 @@ function loadData() {
       // Update statistics in header
       document.getElementById('totalVehicles').textContent =
         vehicles.length.toLocaleString();
+      document.getElementById('totalManufacturers').textContent =
+        uniqueManufacturers.length;
+      document.getElementById('totalChargingTypes').textContent =
+        uniqueChargingTypes.length;
       // Populate dropdown menus
       populateManufacturerDropdowns();
       populateChargingTypeDropdown();
