@@ -42,13 +42,13 @@ function extractUniqueManufacturers() {
 // Populates dropdowns for Operation 1, 2, and 3
 function populateManufacturerDropdowns() {
   let manufacturerSelects = [
-    document.getElementById('op1Manufacturer'),
-    document.getElementById('op2Manufacturer'),
-    document.getElementById('op3Manufacturer'),
+    document.getElementById("op1Manufacturer"),
+    document.getElementById("op2Manufacturer"),
+    document.getElementById("op3Manufacturer"),
   ];
   for (let s = 0; s < manufacturerSelects.length; s++) {
     for (let i = 0; i < uniqueManufacturers.length; i++) {
-      let option = document.createElement('option');
+      let option = document.createElement("option");
       option.value = uniqueManufacturers[i];
       option.textContent = uniqueManufacturers[i];
       manufacturerSelects[s].appendChild(option);
@@ -96,17 +96,17 @@ function getAllManufacturerCounts(data) {
 // runOperation1: Execute Operation 1 - Display vehicle count by manufacturer
 // Gets selected manufacturer, counts vehicles, and displays results
 function runOperation1() {
-  let manufacturer = document.getElementById('op1Manufacturer').value;
-  let resultBox = document.getElementById('op1Result');
+  let manufacturer = document.getElementById("op1Manufacturer").value;
+  let resultBox = document.getElementById("op1Result");
 
-  if (manufacturer === '') {
-    resultBox.className = 'result-box show';
+  if (manufacturer === "") {
+    resultBox.className = "result-box show";
     resultBox.innerHTML =
       '<div class="error-box"><div class="error-icon">⚠️</div>Please select a manufacturer.</div>';
     return;
   }
 
-  if (manufacturer === 'ALL') {
+  if (manufacturer === "ALL") {
     let allCounts = getAllManufacturerCounts(vehicles);
     let maxCount = allCounts[0].count;
     let html =
@@ -121,43 +121,22 @@ function runOperation1() {
         percentage +
         '%"><span class="bar-value">' +
         allCounts[i].count +
-        '</span></div></div></div>';
+        "</span></div></div></div>";
     }
-    html += '</div>';
-    resultBox.className = 'result-box show';
+    html += "</div>";
+    resultBox.className = "result-box show";
     resultBox.innerHTML = html;
   } else {
     let count = countVehiclesByManufacturer(vehicles, manufacturer);
-    let minPrice = 999999999;
-    let maxPrice = 0;
-    let totalPrice = 0;
-    for (let i = 0; i < vehicles.length; i++) {
-      if (vehicles[i].Manufacturer === manufacturer) {
-        if (vehicles[i].Price_USD < minPrice) {
-          minPrice = vehicles[i].Price_USD;
-        }
-        if (vehicles[i].Price_USD > maxPrice) {
-          maxPrice = vehicles[i].Price_USD;
-        }
-        totalPrice = totalPrice + vehicles[i].Price_USD;
-      }
-    }
-    let avgPrice = count > 0 ? totalPrice / count : 0;
     let html =
       '<div class="result-header"><div class="result-icon">🏭</div><div><div class="result-title">' +
       manufacturer +
-      '</div><div class="result-subtitle">Vehicle count and price statistics</div></div></div>';
+      '</div><div class="result-subtitle">Vehicle count</div></div></div>';
     html +=
       '<div class="data-grid"><div class="data-card"><div class="data-card-value">' +
       count +
-      '</div><div class="data-card-label">Total Vehicles</div></div><div class="data-card"><div class="data-card-value">$' +
-      Math.round(minPrice).toLocaleString() +
-      '</div><div class="data-card-label">Lowest Price</div></div><div class="data-card"><div class="data-card-value">$' +
-      Math.round(maxPrice).toLocaleString() +
-      '</div><div class="data-card-label">Highest Price</div></div><div class="data-card"><div class="data-card-value">$' +
-      Math.round(avgPrice).toLocaleString() +
-      '</div><div class="data-card-label">Average Price</div></div></div>';
-    resultBox.className = 'result-box show';
+      '</div><div class="data-card-label">Total Vehicles</div></div></div>';
+    resultBox.className = "result-box show";
     resultBox.innerHTML = html;
   }
 }
@@ -202,11 +181,11 @@ function getModelDetails(data, manufacturer) {
 // runOperation2: Execute Operation 2 - List all models by manufacturer
 // Gets selected manufacturer and displays list of models with price ranges
 function runOperation2() {
-  let manufacturer = document.getElementById('op2Manufacturer').value;
-  let resultBox = document.getElementById('op2Result');
+  let manufacturer = document.getElementById("op2Manufacturer").value;
+  let resultBox = document.getElementById("op2Result");
 
-  if (manufacturer === '') {
-    resultBox.className = 'result-box show';
+  if (manufacturer === "") {
+    resultBox.className = "result-box show";
     resultBox.innerHTML =
       '<div class="error-box"><div class="error-icon">⚠️</div>Please select a manufacturer.</div>';
     return;
@@ -218,32 +197,24 @@ function runOperation2() {
     manufacturer +
     ' Models</div><div class="result-subtitle">Found ' +
     models.length +
-    ' unique model(s)</div></div></div>';
+    " unique model(s)</div></div></div>";
 
   if (models.length > 0) {
     html += '<div class="model-list">';
     for (let i = 0; i < models.length; i++) {
-      let priceRange = '$' + Math.round(models[i].minPrice).toLocaleString();
-      if (models[i].minPrice !== models[i].maxPrice) {
-        priceRange += ' - $' + Math.round(models[i].maxPrice).toLocaleString();
-      }
       html +=
         '<div class="model-item"><div class="model-number">' +
         (i + 1) +
         '</div><div><div class="model-name">' +
         models[i].name +
-        '</div><div style="color: #888; font-size: 0.85rem;">' +
-        priceRange +
-        ' • ' +
-        models[i].count +
-        ' variant(s)</div></div></div>';
+        "</div></div></div>";
     }
-    html += '</div>';
+    html += "</div>";
   } else {
     html +=
       '<div class="error-box"><div class="error-icon">🔍</div>No models found for this manufacturer.</div>';
   }
-  resultBox.className = 'result-box show';
+  resultBox.className = "result-box show";
   resultBox.innerHTML = html;
 }
 
@@ -257,12 +228,12 @@ function runOperation2() {
 // Returns: string of filled and empty stars (e.g., "★★★☆☆")
 // Used by Operation 3, 5, and 6
 function generateStars(rating) {
-  let stars = '';
+  let stars = "";
   for (let i = 0; i < 5; i++) {
     if (i < rating) {
-      stars += '★';
+      stars += "★";
     } else {
-      stars += '☆';
+      stars += "☆";
     }
   }
   return stars;
@@ -288,11 +259,11 @@ function findLongestRangeVehicle(data, manufacturer) {
 // runOperation3: Execute Operation 3 - Find longest range model
 // Gets selected manufacturer and displays vehicle with longest range
 function runOperation3() {
-  let manufacturer = document.getElementById('op3Manufacturer').value;
-  let resultBox = document.getElementById('op3Result');
+  let manufacturer = document.getElementById("op3Manufacturer").value;
+  let resultBox = document.getElementById("op3Result");
 
-  if (manufacturer === '') {
-    resultBox.className = 'result-box show';
+  if (manufacturer === "") {
+    resultBox.className = "result-box show";
     resultBox.innerHTML =
       '<div class="error-box"><div class="error-icon">⚠️</div>Please select a manufacturer.</div>';
     return;
@@ -301,7 +272,7 @@ function runOperation3() {
   let vehicle = findLongestRangeVehicle(vehicles, manufacturer);
 
   if (vehicle === null) {
-    resultBox.className = 'result-box show';
+    resultBox.className = "result-box show";
     resultBox.innerHTML =
       '<div class="error-box"><div class="error-icon">🔍</div>No vehicles found for this manufacturer.</div>';
     return;
@@ -310,7 +281,7 @@ function runOperation3() {
   let html =
     '<div class="result-header"><div class="result-icon">🔋</div><div><div class="result-title">Longest Range Vehicle</div><div class="result-subtitle">For ' +
     manufacturer +
-    '</div></div></div>';
+    "</div></div></div>";
   html +=
     '<div class="vehicle-highlight"><div class="vehicle-name">' +
     vehicle.Manufacturer +
@@ -335,7 +306,7 @@ function runOperation3() {
     '</span></div><div class="data-card-label">Safety Rating</div></div><div class="data-card"><div class="data-card-value">' +
     vehicle.Color +
     '</div><div class="data-card-label">Color</div></div></div>';
-  resultBox.className = 'result-box show';
+  resultBox.className = "result-box show";
   resultBox.innerHTML = html;
 }
 
@@ -376,9 +347,9 @@ function extractUniqueChargingTypes() {
 // populateChargingTypeDropdown: Fill dropdown menu with charging type options
 // Populates dropdown for Operation 4
 function populateChargingTypeDropdown() {
-  let chargingSelect = document.getElementById('op4ChargingType');
+  let chargingSelect = document.getElementById("op4ChargingType");
   for (let i = 0; i < uniqueChargingTypes.length; i++) {
-    let option = document.createElement('option');
+    let option = document.createElement("option");
     option.value = uniqueChargingTypes[i];
     option.textContent = uniqueChargingTypes[i];
     chargingSelect.appendChild(option);
@@ -448,17 +419,17 @@ function getAllChargingTypeStats(data) {
 // runOperation4: Execute Operation 4 - Calculate average charging time
 // Gets selected charging type and displays charging time statistics
 function runOperation4() {
-  let chargingType = document.getElementById('op4ChargingType').value;
-  let resultBox = document.getElementById('op4Result');
+  let chargingType = document.getElementById("op4ChargingType").value;
+  let resultBox = document.getElementById("op4Result");
 
-  if (chargingType === '') {
-    resultBox.className = 'result-box show';
+  if (chargingType === "") {
+    resultBox.className = "result-box show";
     resultBox.innerHTML =
       '<div class="error-box"><div class="error-icon">⚠️</div>Please select a charging type.</div>';
     return;
   }
 
-  if (chargingType === 'ALL') {
+  if (chargingType === "ALL") {
     let allStats = getAllChargingTypeStats(vehicles);
     let html =
       '<div class="result-header"><div class="result-icon">⚡</div><div><div class="result-title">All Charging Types - Average Time</div><div class="result-subtitle">Sorted by fastest charging time</div></div></div>';
@@ -466,25 +437,25 @@ function runOperation4() {
       '<table class="data-table"><tr><th>Charging Type</th><th>Avg Time</th><th>Min</th><th>Max</th><th>Vehicles</th></tr>';
     for (let i = 0; i < allStats.length; i++) {
       html +=
-        '<tr><td>' +
+        "<tr><td>" +
         allStats[i].type +
-        '</td><td><strong>' +
+        "</td><td><strong>" +
         allStats[i].average.toFixed(2) +
-        ' hrs</strong></td><td>' +
+        " hrs</strong></td><td>" +
         allStats[i].min.toFixed(1) +
-        ' hrs</td><td>' +
+        " hrs</td><td>" +
         allStats[i].max.toFixed(1) +
-        ' hrs</td><td>' +
+        " hrs</td><td>" +
         allStats[i].count +
-        '</td></tr>';
+        "</td></tr>";
     }
-    html += '</table>';
-    resultBox.className = 'result-box show';
+    html += "</table>";
+    resultBox.className = "result-box show";
     resultBox.innerHTML = html;
   } else {
     let result = calculateAverageChargeTime(vehicles, chargingType);
     if (result.count === 0) {
-      resultBox.className = 'result-box show';
+      resultBox.className = "result-box show";
       resultBox.innerHTML =
         '<div class="error-box"><div class="error-icon">🔍</div>No vehicles found with this charging type.</div>';
       return;
@@ -503,7 +474,7 @@ function runOperation4() {
       ' hrs</div><div class="data-card-label">Slowest</div></div><div class="data-card"><div class="data-card-value">' +
       result.count +
       '</div><div class="data-card-label">Total Vehicles</div></div></div>';
-    resultBox.className = 'result-box show';
+    resultBox.className = "result-box show";
     resultBox.innerHTML = html;
   }
 }
@@ -549,13 +520,13 @@ function findTopSafest2025Vehicles(data) {
 // runOperation5: Execute Operation 5 - Rank top 5 safest 2025 vehicles
 // Displays table of top 5 safest vehicles from year 2025
 function runOperation5() {
-  let resultBox = document.getElementById('op5Result');
+  let resultBox = document.getElementById("op5Result");
   let result = findTopSafest2025Vehicles(vehicles);
 
   let html =
     '<div class="result-header"><div class="result-icon">🛡️</div><div><div class="result-title">Top 5 Safest 2025 Vehicles</div><div class="result-subtitle">From ' +
     result.total2025 +
-    ' vehicles manufactured in 2025</div></div></div>';
+    " vehicles manufactured in 2025</div></div></div>";
 
   if (result.top5.length === 0) {
     html +=
@@ -570,21 +541,21 @@ function runOperation5() {
         (i + 1) +
         '">' +
         (i + 1) +
-        '</span></td><td><strong>' +
+        "</span></td><td><strong>" +
         v.Manufacturer +
-        '</strong></td><td>' +
+        "</strong></td><td>" +
         v.Model +
         '</td><td><span class="safety-stars">' +
         generateStars(v.Safety_Rating) +
-        '</span></td><td>' +
+        "</span></td><td>" +
         v.Range_km +
-        ' km</td><td>$' +
+        " km</td><td>$" +
         Math.round(v.Price_USD).toLocaleString() +
-        '</td></tr>';
+        "</td></tr>";
     }
-    html += '</table>';
+    html += "</table>";
   }
-  resultBox.className = 'result-box show';
+  resultBox.className = "result-box show";
   resultBox.innerHTML = html;
 }
 
@@ -644,11 +615,11 @@ function getTopSellers(data, count) {
 // runOperation6: Execute Operation 6 - Find best-selling EV in 2024
 // Displays best-selling vehicle with details and top 5 sellers table
 function runOperation6() {
-  let resultBox = document.getElementById('op6Result');
+  let resultBox = document.getElementById("op6Result");
   let result = findBestSellingEV2024(vehicles);
 
   if (result.vehicle === null) {
-    resultBox.className = 'result-box show';
+    resultBox.className = "result-box show";
     resultBox.innerHTML =
       '<div class="error-box"><div class="error-icon">🔍</div>No vehicles found in the dataset.</div>';
     return;
@@ -695,19 +666,19 @@ function runOperation6() {
       (i + 1) +
       '">' +
       (i + 1) +
-      '</span></td><td><strong>' +
+      "</span></td><td><strong>" +
       top5[i].Manufacturer +
-      '</strong></td><td>' +
+      "</strong></td><td>" +
       top5[i].Model +
-      '</td><td>' +
+      "</td><td>" +
       top5[i].Units_Sold_2024.toLocaleString() +
-      '</td><td>$' +
+      "</td><td>$" +
       Math.round(top5[i].Price_USD).toLocaleString() +
-      '</td></tr>';
+      "</td></tr>";
   }
-  html += '</table>';
+  html += "</table>";
 
-  resultBox.className = 'result-box show';
+  resultBox.className = "result-box show";
   resultBox.innerHTML = html;
 }
 
@@ -721,23 +692,23 @@ function runOperation6() {
 function showPanel(panelNumber) {
   // Hide all panels
   for (let i = 1; i <= 6; i++) {
-    document.getElementById('panel' + i).className = 'operation-panel';
+    document.getElementById("panel" + i).className = "operation-panel";
   }
   // Remove active class from all tabs
-  let tabs = document.getElementsByClassName('nav-tab');
+  let tabs = document.getElementsByClassName("nav-tab");
   for (let i = 0; i < tabs.length; i++) {
-    tabs[i].className = 'nav-tab';
+    tabs[i].className = "nav-tab";
   }
   // Show selected panel and highlight tab
-  document.getElementById('panel' + panelNumber).className =
-    'operation-panel active';
-  tabs[panelNumber - 1].className = 'nav-tab active';
+  document.getElementById("panel" + panelNumber).className =
+    "operation-panel active";
+  tabs[panelNumber - 1].className = "nav-tab active";
 }
 
 // loadData: Fetch JSON data and initialize the application
 // Loads vehicle data from JSON file, extracts unique values, and sets up UI
 function loadData() {
-  fetch('electric_vehicles_dataset.json')
+  fetch("electric_vehicles_dataset.json")
     .then(function (response) {
       return response.json();
     })
@@ -748,14 +719,14 @@ function loadData() {
       extractUniqueManufacturers();
       extractUniqueChargingTypes();
       // Hide loading message and show main content
-      document.getElementById('loadingMessage').style.display = 'none';
-      document.getElementById('mainContent').style.display = 'block';
+      document.getElementById("loadingMessage").style.display = "none";
+      document.getElementById("mainContent").style.display = "block";
       // Update statistics in header
-      document.getElementById('totalVehicles').textContent =
+      document.getElementById("totalVehicles").textContent =
         vehicles.length.toLocaleString();
-      document.getElementById('totalManufacturers').textContent =
+      document.getElementById("totalManufacturers").textContent =
         uniqueManufacturers.length;
-      document.getElementById('totalChargingTypes').textContent =
+      document.getElementById("totalChargingTypes").textContent =
         uniqueChargingTypes.length;
       // Populate dropdown menus
       populateManufacturerDropdowns();
@@ -763,7 +734,7 @@ function loadData() {
     })
     .catch(function (error) {
       // Show error message if data loading fails
-      document.getElementById('loadingMessage').innerHTML =
+      document.getElementById("loadingMessage").innerHTML =
         '<div class="error-box"><div class="error-icon">⚠️</div>Error loading data. Please ensure the JSON file is in the same directory.</div>';
     });
 }
