@@ -281,31 +281,20 @@ function runOperation3() {
   let html =
     '<div class="result-header"><div class="result-icon">🔋</div><div><div class="result-title">Longest Range Vehicle</div><div class="result-subtitle">For ' +
     manufacturer +
-    "</div></div></div>";
+    '</div></div></div>';
+
+  // Table Format Design
   html +=
-    '<div class="vehicle-highlight"><div class="vehicle-name">' +
-    vehicle.Manufacturer +
-    '</div><div class="vehicle-model">' +
-    vehicle.Model +
-    '</div><div class="vehicle-specs"><div class="spec-item"><div class="spec-value">' +
-    vehicle.Range_km +
-    ' km</div><div class="spec-label">Range</div></div><div class="spec-item"><div class="spec-value">' +
-    vehicle.Battery_Capacity_kWh +
-    ' kWh</div><div class="spec-label">Battery</div></div><div class="spec-item"><div class="spec-value">$' +
-    Math.round(vehicle.Price_USD).toLocaleString() +
-    '</div><div class="spec-label">Price</div></div><div class="spec-item"><div class="spec-value">' +
-    vehicle.Year +
-    '</div><div class="spec-label">Year</div></div></div></div>';
-  html +=
-    '<div class="data-grid"><div class="data-card"><div class="data-card-value">' +
-    vehicle.Charging_Type +
-    '</div><div class="data-card-label">Charging Type</div></div><div class="data-card"><div class="data-card-value">' +
-    vehicle.Charge_Time_hr +
-    ' hrs</div><div class="data-card-label">Charge Time</div></div><div class="data-card"><div class="data-card-value"><span class="safety-stars">' +
-    generateStars(vehicle.Safety_Rating) +
-    '</span></div><div class="data-card-label">Safety Rating</div></div><div class="data-card"><div class="data-card-value">' +
-    vehicle.Color +
-    '</div><div class="data-card-label">Color</div></div></div>';
+    '<table class="data-table">' +
+    '<tr><th colspan="2" style="text-align: center; font-size: 1.2rem;">' + vehicle.Manufacturer + ' ' + vehicle.Model + '</th></tr>' +
+    '<tr><td>Range</td><td style="color: #00ff88; font-weight: bold;">' + vehicle.Range_km + ' km</td></tr>' +
+    '<tr><td>Battery Capacity</td><td>' + vehicle.Battery_Capacity_kWh + ' kWh</td></tr>' +
+    '<tr><td>Year</td><td>' + vehicle.Year + '</td></tr>' +
+    '<tr><td>Price</td><td>$' + Math.round(vehicle.Price_USD).toLocaleString() + '</td></tr>' +
+    '<tr><td>Charging Type</td><td>' + vehicle.Charging_Type + '</td></tr>' +
+    '<tr><td>Charge Time</td><td>' + vehicle.Charge_Time_hr + ' hrs</td></tr>' +
+    '<tr><td>Safety Rating</td><td><span class="safety-stars">' + generateStars(vehicle.Safety_Rating) + '</span></td></tr>' +
+    '</table>';
   resultBox.className = "result-box show";
   resultBox.innerHTML = html;
 }
