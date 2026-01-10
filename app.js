@@ -1,7 +1,7 @@
-// ============================================================
+// =============================================================
 // OPERATION 1: Display total number of vehicles by manufacturer
 // (uniqueManufacturers is used by Operation 1)
-// ============================================================
+// =============================================================
 
 // vehicles: Array to store all vehicle data from JSON file
 let vehicles = [];
@@ -580,7 +580,7 @@ function findTopSafest2025Vehicles(data) {
 }
 
 // runOperation5: Execute Operation 5 - Rank top 5 safest 2025 vehicles
-// Displays table of top 5 safest vehicles from year 2025
+// Displays table of top 5 safest vehicles from year 2025 with all attributes
 function runOperation5() {
   let resultBox = document.getElementById("op5Result");
   let result = findTopSafest2025Vehicles(vehicles);
@@ -593,9 +593,17 @@ function runOperation5() {
       '<div class="error-box"><div class="error-icon">🔍</div>No 2025 vehicles found in the dataset.</div>';
   } else {
     html +=
-      '<table class="data-table"><tr><th>Rank</th><th>Manufacturer</th><th>Model</th><th>Safety</th><th>Range</th><th>Price</th></tr>';
+      '<table class="data-table"><tr><th>Rank</th><th>Manufacturer</th><th>Model</th><th>Year</th><th>Battery Type</th><th>Battery (kWh)</th><th>Range (km)</th><th>Charging Type</th><th>Charge Time (hrs)</th><th>Price (USD)</th><th>Color</th><th>Country</th><th>Auto Level</th><th>CO2 (g/km)</th><th>Safety</th><th>Units Sold 2024</th><th>Warranty (yrs)</th></tr>';
     for (let i = 0; i < result.top5.length; i++) {
       let v = result.top5[i];
+      let co2Value = v.CO2_Emissions_g_per_km;
+      if (co2Value === null || co2Value === undefined) {
+        co2Value = "N/A";
+      }
+      let autoLevel = v.Autonomous_Level;
+      if (autoLevel === null || autoLevel === undefined) {
+        autoLevel = "N/A";
+      }
       html +=
         '<tr><td><span class="rank-badge rank-' +
         (i + 1) +
@@ -605,12 +613,34 @@ function runOperation5() {
         v.Manufacturer +
         "</strong></td><td>" +
         v.Model +
+        "</td><td>" +
+        v.Year +
+        "</td><td>" +
+        v.Battery_Type +
+        "</td><td>" +
+        v.Battery_Capacity_kWh +
+        "</td><td>" +
+        v.Range_km +
+        "</td><td>" +
+        v.Charging_Type +
+        "</td><td>" +
+        v.Charge_Time_hr +
+        "</td><td>$" +
+        Math.round(v.Price_USD).toLocaleString() +
+        "</td><td>" +
+        v.Color +
+        "</td><td>" +
+        v.Country_of_Manufacture +
+        "</td><td>" +
+        autoLevel +
+        "</td><td>" +
+        co2Value +
         '</td><td><span class="safety-stars">' +
         generateStars(v.Safety_Rating) +
         "</span></td><td>" +
-        v.Range_km +
-        " km</td><td>$" +
-        Math.round(v.Price_USD).toLocaleString() +
+        v.Units_Sold_2024.toLocaleString() +
+        "</td><td>" +
+        v.Warranty_Years +
         "</td></tr>";
     }
     html += "</table>";
