@@ -1,6 +1,6 @@
 // ============================================================
 // OPERATION 1: Display total number of vehicles by manufacturer
-// (uniqueManufacturers is also used by Operation 2 and 3)
+// (uniqueManufacturers is used by Operation 1)
 // ============================================================
 
 // vehicles: Array to store all vehicle data from JSON file
@@ -38,20 +38,16 @@ function extractUniqueManufacturers() {
   }
 }
 
-// populateManufacturerDropdowns: Fill dropdown menus with manufacturer options
-// Populates dropdowns for Operation 1, 2, and 3
+// populateManufacturerDropdowns: Fill dropdown menu with manufacturer options
+// Populates dropdown for Operation 1 (combined with 2 and 3)
 function populateManufacturerDropdowns() {
-  let manufacturerSelects = [
-    document.getElementById("op1Manufacturer"),
-    document.getElementById("op2Manufacturer"),
-    document.getElementById("op3Manufacturer"),
-  ];
-  for (let s = 0; s < manufacturerSelects.length; s++) {
+  let manufacturerSelect = document.getElementById("op1Manufacturer");
+  if (manufacturerSelect !== null) {
     for (let i = 0; i < uniqueManufacturers.length; i++) {
       let option = document.createElement("option");
       option.value = uniqueManufacturers[i];
       option.textContent = uniqueManufacturers[i];
-      manufacturerSelects[s].appendChild(option);
+      manufacturerSelect.appendChild(option);
     }
   }
 }
@@ -93,8 +89,8 @@ function getAllManufacturerCounts(data) {
   return results;
 }
 
-// runOperation1: Execute Operation 1 - Display vehicle count by manufacturer
-// Gets selected manufacturer, counts vehicles, and displays results
+// runOperation1: Execute Operation 1, 2, 3 - Display manufacturer info
+// Shows vehicle count, model list, and longest range for selected manufacturer
 function runOperation1() {
   let manufacturer = document.getElementById("op1Manufacturer").value;
   let resultBox = document.getElementById("op1Result");
@@ -108,6 +104,12 @@ function runOperation1() {
 
   if (manufacturer === "ALL") {
     let allCounts = getAllManufacturerCounts(vehicles);
+    if (allCounts.length === 0) {
+      resultBox.className = "result-box show";
+      resultBox.innerHTML =
+        '<div class="error-box"><div class="error-icon">🔍</div>No vehicles found in the dataset.</div>';
+      return;
+    }
     let maxCount = allCounts[0].count;
     let html =
       '<div class="result-header"><div class="result-icon">📊</div><div><div class="result-title">All Manufacturers - Vehicle Count</div><div class="result-subtitle">Sorted by number of vehicles (highest first)</div></div></div>';
@@ -126,100 +128,128 @@ function runOperation1() {
     html += '</div>';
     resultBox.className = "result-box show";
     resultBox.innerHTML = html;
-  } else {
-    let count = countVehiclesByManufacturer(vehicles, manufacturer);
-
-    // Get models and their counts for this manufacturer
-    let modelCounts = [];
-    for (let i = 0; i < vehicles.length; i++) {
-      if (vehicles[i].Manufacturer === manufacturer) {
-        let found = false;
-        for (let j = 0; j < modelCounts.length; j++) {
-          if (modelCounts[j].name === vehicles[i].Model) {
-            modelCounts[j].count = modelCounts[j].count + 1;
-            found = true;
-          }
-        }
-        if (found === false) {
-          modelCounts[modelCounts.length] = { name: vehicles[i].Model, count: 1 };
-        }
-      }
-    }
-
-    // Sort models by count descending using bubble sort
-    for (let i = 0; i < modelCounts.length - 1; i++) {
-      for (let j = 0; j < modelCounts.length - 1 - i; j++) {
-        if (modelCounts[j].count < modelCounts[j + 1].count) {
-          let temp = modelCounts[j];
-          modelCounts[j] = modelCounts[j + 1];
-          modelCounts[j + 1] = temp;
-        }
-      }
-    }
-
-    let html =
-      '<div class="result-header"><div class="result-icon">🏭</div><div><div class="result-title">' +
-      manufacturer +
-      '</div><div class="result-subtitle">Vehicle count by model</div></div></div>';
-    html +=
-      '<div class="data-grid"><div class="data-card"><div class="data-card-value">' +
-      count +
-      '</div><div class="data-card-label">Total Vehicles</div></div><div class="data-card"><div class="data-card-value">' +
-      modelCounts.length +
-      '</div><div class="data-card-label">Models</div></div></div>';
-
-    // Show models table
-    html += '<table class="data-table" style="margin-top: 20px;">';
-    html += '<tr><th>Model</th><th>Vehicles</th></tr>';
-    for (let i = 0; i < modelCounts.length; i++) {
-      html += '<tr><td>' + modelCounts[i].name + '</td><td>' + modelCounts[i].count + '</td></tr>';
-    }
-    html += '</table>';
-
-    resultBox.className = "result-box show";
-    resultBox.innerHTML = html;
+    return;
   }
+
+  // Operation 1: Count vehicles
+  let count = countVehiclesByManufacturer(vehicles, manufacturer);
+
+  if (count === 0) {
+    resultBox.className = "result-box show";
+    resultBox.innerHTML =
+      '<div class="error-box"><div class="error-icon">🔍</div>No vehicles found for this manufacturer.</div>';
+    return;
+  }
+
+  // Operation 2: Get unique models with count
+  let modelCounts = [];
+  for (let i = 0; i < vehicles.length; i++) {
+    if (vehicles[i].Manufacturer === manufacturer) {
+      let found = false;
+      for (let j = 0; j < modelCounts.length; j++) {
+        if (modelCounts[j].name === vehicles[i].Model) {
+          modelCounts[j].count = modelCounts[j].count + 1;
+          found = true;
+        }
+      }
+      if (found === false) {
+        modelCounts[modelCounts.length] = { name: vehicles[i].Model, count: 1 };
+      }
+    }
+  }
+  // Sort alphabetically using bubble sort
+  for (let i = 0; i < modelCounts.length - 1; i++) {
+    for (let j = 0; j < modelCounts.length - 1 - i; j++) {
+      if (modelCounts[j].name > modelCounts[j + 1].name) {
+        let temp = modelCounts[j];
+        modelCounts[j] = modelCounts[j + 1];
+        modelCounts[j + 1] = temp;
+      }
+    }
+  }
+
+  // Operation 3: Find longest range vehicle
+  let longestVehicle = findLongestRangeVehicle(vehicles, manufacturer);
+
+  // Build combined result HTML
+  let html =
+    '<div class="result-header"><div class="result-icon">🏭</div><div><div class="result-title">' +
+    manufacturer +
+    '</div><div class="result-subtitle">Manufacturer Information</div></div></div>';
+
+  // Vehicle Count Card
+  html +=
+    '<div class="data-grid"><div class="data-card"><div class="data-card-value">' +
+    count +
+    '</div><div class="data-card-label">Total Vehicles</div></div></div>';
+
+  // Model List Table with Count
+  html += '<div class="result-section">';
+  html += '<h3 class="section-title">📋 Available Models</h3>';
+  html += '<table class="data-table" style="table-layout: fixed; width: 100%;"><tr><th style="width: 33.33%;">No.</th><th style="width: 33.33%;">Model Name</th><th style="width: 33.33%;">Count</th></tr>';
+  for (let i = 0; i < modelCounts.length; i++) {
+    html += '<tr><td>' + (i + 1) + '</td><td>' + modelCounts[i].name + '</td><td>' + modelCounts[i].count + '</td></tr>';
+  }
+  html += '</table>';
+  html += '</div>';
+
+  // Longest Range
+  html += '<div class="result-section">';
+  html += '<h3 class="section-title">🔋 Longest Range Model</h3>';
+  if (longestVehicle !== null) {
+    html += '<div class="vehicle-highlight">';
+    html += '<div class="vehicle-model">' + longestVehicle.Model + '</div>';
+    html += '<div class="vehicle-specs">';
+    html +=
+      '<div class="spec-item"><div class="spec-value">' +
+      longestVehicle.Range_km +
+      ' km</div><div class="spec-label">Range</div></div>';
+    html += '</div>';
+    html += '</div>';
+  }
+  html += '</div>';
+
+  resultBox.className = "result-box show";
+  resultBox.innerHTML = html;
 }
 
 // ============================================================
 // OPERATION 2: List models by manufacturer
 // ============================================================
 
-// getModelDetails: Get all unique models for a specific manufacturer
+// getUniqueModels: Get all unique model names for a specific manufacturer
 // Parameters: data (array), manufacturer (string)
-// Returns: array of model objects with name, minPrice, maxPrice, count
-function getModelDetails(data, manufacturer) {
+// Returns: array of unique model names sorted alphabetically
+function getUniqueModels(data, manufacturer) {
   let models = [];
   for (let i = 0; i < data.length; i++) {
     if (data[i].Manufacturer === manufacturer) {
       let found = false;
       for (let j = 0; j < models.length; j++) {
-        if (models[j].name === data[i].Model) {
+        if (models[j] === data[i].Model) {
           found = true;
-          if (data[i].Price_USD < models[j].minPrice) {
-            models[j].minPrice = data[i].Price_USD;
-          }
-          if (data[i].Price_USD > models[j].maxPrice) {
-            models[j].maxPrice = data[i].Price_USD;
-          }
-          models[j].count = models[j].count + 1;
         }
       }
       if (found === false) {
-        models[models.length] = {
-          name: data[i].Model,
-          minPrice: data[i].Price_USD,
-          maxPrice: data[i].Price_USD,
-          count: 1,
-        };
+        models[models.length] = data[i].Model;
+      }
+    }
+  }
+  // Sort alphabetically using bubble sort
+  for (let i = 0; i < models.length - 1; i++) {
+    for (let j = 0; j < models.length - 1 - i; j++) {
+      if (models[j] > models[j + 1]) {
+        let temp = models[j];
+        models[j] = models[j + 1];
+        models[j + 1] = temp;
       }
     }
   }
   return models;
 }
 
-// runOperation2: Execute Operation 2 - List all models by manufacturer
-// Gets selected manufacturer and displays list of models with price ranges
+// runOperation2: Execute Operation 2 - List models by manufacturer
+// Gets selected manufacturer and displays list of available models
 function runOperation2() {
   let manufacturer = document.getElementById("op2Manufacturer").value;
   let resultBox = document.getElementById("op2Result");
@@ -231,51 +261,38 @@ function runOperation2() {
     return;
   }
 
-  let models = getModelDetails(vehicles, manufacturer);
+  let models = getUniqueModels(vehicles, manufacturer);
+
+  if (models.length === 0) {
+    resultBox.className = "result-box show";
+    resultBox.innerHTML =
+      '<div class="error-box"><div class="error-icon">🔍</div>No models found for this manufacturer.</div>';
+    return;
+  }
+
   let html =
     '<div class="result-header"><div class="result-icon">📋</div><div><div class="result-title">' +
     manufacturer +
     ' Models</div><div class="result-subtitle">List of available models</div></div></div>';
 
-  if (models.length > 0) {
-    html += '<div class="model-list">';
-    for (let i = 0; i < models.length; i++) {
-      html +=
-        '<div class="model-item"><div class="model-number">' +
-        (i + 1) +
-        '</div><div><div class="model-name">' +
-        models[i].name +
-        "</div></div></div>";
-    }
-    html += "</div>";
-  } else {
+  html += '<div class="model-list">';
+  for (let i = 0; i < models.length; i++) {
     html +=
-      '<div class="error-box"><div class="error-icon">🔍</div>No models found for this manufacturer.</div>';
+      '<div class="model-item"><div class="model-number">' +
+      (i + 1) +
+      '</div><div class="model-name">' +
+      models[i] +
+      '</div></div>';
   }
+  html += '</div>';
+
   resultBox.className = "result-box show";
   resultBox.innerHTML = html;
 }
 
 // ============================================================
 // OPERATION 3: Find longest range model for manufacturer
-// (generateStars helper is also used by Operation 5 and 6)
 // ============================================================
-
-// generateStars: Convert numeric safety rating to star symbols
-// Parameters: rating (number 1-5)
-// Returns: string of filled and empty stars (e.g., "★★★☆☆")
-// Used by Operation 3, 5, and 6
-function generateStars(rating) {
-  let stars = "";
-  for (let i = 0; i < 5; i++) {
-    if (i < rating) {
-      stars += "★";
-    } else {
-      stars += "☆";
-    }
-  }
-  return stars;
-}
 
 // findLongestRangeVehicle: Find vehicle with longest range for a manufacturer
 // Parameters: data (array), manufacturer (string)
@@ -321,20 +338,38 @@ function runOperation3() {
     manufacturer +
     '</div></div></div>';
 
-  // Table Format Design
+  html += '<div class="vehicle-highlight">';
+  html += '<div class="vehicle-model">' + vehicle.Model + '</div>';
+  html += '<div class="vehicle-specs">';
   html +=
-    '<table class="data-table">' +
-    '<tr><th colspan="2" style="text-align: center; font-size: 1.2rem;">' + vehicle.Manufacturer + ' ' + vehicle.Model + '</th></tr>' +
-    '<tr><td>Range</td><td style="color: #00ff88; font-weight: bold;">' + vehicle.Range_km + ' km</td></tr>' +
-    '<tr><td>Battery Capacity</td><td>' + vehicle.Battery_Capacity_kWh + ' kWh</td></tr>' +
-    '<tr><td>Year</td><td>' + vehicle.Year + '</td></tr>' +
-    '<tr><td>Price</td><td>$' + Math.round(vehicle.Price_USD).toLocaleString() + '</td></tr>' +
-    '<tr><td>Charging Type</td><td>' + vehicle.Charging_Type + '</td></tr>' +
-    '<tr><td>Charge Time</td><td>' + vehicle.Charge_Time_hr + ' hrs</td></tr>' +
-    '<tr><td>Safety Rating</td><td><span class="safety-stars">' + generateStars(vehicle.Safety_Rating) + '</span></td></tr>' +
-    '</table>';
+    '<div class="spec-item"><div class="spec-value">' +
+    vehicle.Range_km +
+    ' km</div><div class="spec-label">Range</div></div>';
+  html += '</div>';
+  html += '</div>';
+
   resultBox.className = "result-box show";
   resultBox.innerHTML = html;
+}
+
+// ============================================================
+// HELPER: Safety rating stars (used by Operation 5 and 6)
+// ============================================================
+
+// generateStars: Convert numeric safety rating to star symbols
+// Parameters: rating (number 1-5)
+// Returns: string of filled and empty stars (e.g., "★★★☆☆")
+// Used by Operation 5 and 6
+function generateStars(rating) {
+  let stars = "";
+  for (let i = 0; i < 5; i++) {
+    if (i < rating) {
+      stars += "★";
+    } else {
+      stars += "☆";
+    }
+  }
+  return stars;
 }
 
 // ============================================================
@@ -693,22 +728,30 @@ function runOperation6() {
 // ============================================================
 
 // showPanel: Switch between operation panels (tab navigation)
-// Parameters: panelNumber (1-6)
+// Parameters: panelNumber (1-4)
 // Hides all panels and shows the selected one, updates tab styling
 function showPanel(panelNumber) {
-  // Hide all panels
-  for (let i = 1; i <= 6; i++) {
-    document.getElementById("panel" + i).className = "operation-panel";
+  let panelIds = ["panel1", "panel2", "panel3", "panel4"];
+  for (let i = 0; i < panelIds.length; i++) {
+    let panel = document.getElementById(panelIds[i]);
+    if (panel !== null) {
+      panel.className = "operation-panel";
+    }
   }
-  // Remove active class from all tabs
   let tabs = document.getElementsByClassName("nav-tab");
   for (let i = 0; i < tabs.length; i++) {
     tabs[i].className = "nav-tab";
   }
-  // Show selected panel and highlight tab
-  document.getElementById("panel" + panelNumber).className =
-    "operation-panel active";
-  tabs[panelNumber - 1].className = "nav-tab active";
+  let index = panelNumber - 1;
+  if (panelIds[index]) {
+    let activePanel = document.getElementById(panelIds[index]);
+    if (activePanel !== null) {
+      activePanel.className = "operation-panel active";
+    }
+  }
+  if (tabs[index]) {
+    tabs[index].className = "nav-tab active";
+  }
 }
 
 // loadData: Fetch JSON data and initialize the application

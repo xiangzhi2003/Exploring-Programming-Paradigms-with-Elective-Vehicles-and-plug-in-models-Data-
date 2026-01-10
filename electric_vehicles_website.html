@@ -61,32 +61,23 @@
       <div id="mainContent" style="display: none">
         <div class="nav-tabs">
           <div class="nav-tab active" onclick="showPanel(1)">
-            <span class="tab-number">1</span>Vehicle Count
+            <span class="tab-number">1</span>Manufacturer Info
           </div>
           <div class="nav-tab" onclick="showPanel(2)">
-            <span class="tab-number">2</span>Models List
+            <span class="tab-number">2</span>Charge Time
           </div>
           <div class="nav-tab" onclick="showPanel(3)">
-            <span class="tab-number">3</span>Longest Range
+            <span class="tab-number">3</span>Top 5 Safest
           </div>
           <div class="nav-tab" onclick="showPanel(4)">
-            <span class="tab-number">4</span>Charge Time
-          </div>
-          <div class="nav-tab" onclick="showPanel(5)">
-            <span class="tab-number">5</span>Top 5 Safest
-          </div>
-          <div class="nav-tab" onclick="showPanel(6)">
-            <span class="tab-number">6</span>Best Seller
+            <span class="tab-number">4</span>Best Seller
           </div>
         </div>
 
         <div id="panel1" class="operation-panel active">
           <div class="panel-header">
-            <h2>🏭 Operation 1: Vehicle Count by Manufacturer</h2>
-            <p>
-              Display the total number of vehicles produced by each
-              manufacturing company
-            </p>
+            <h2>🏭 Manufacturer Information</h2>
+            <p>Display vehicle count, list of models, and longest range model for a manufacturer</p>
           </div>
           <div class="form-section">
             <div class="form-group">
@@ -96,9 +87,7 @@
                 <option value="ALL">📊 Show All Manufacturers</option>
               </select>
             </div>
-            <button class="btn" onclick="runOperation1()">
-              📊 Count Vehicles
-            </button>
+            <button class="btn" onclick="runOperation1()">🔍 Search Manufacturer</button>
           </div>
           <div class="result-container">
             <div id="op1Result" class="result-box"></div>
@@ -107,58 +96,8 @@
 
         <div id="panel2" class="operation-panel">
           <div class="panel-header">
-            <h2>📋 Operation 2: Models by Manufacturer</h2>
-            <p>
-              Search and display the list of models available from a specific
-              manufacturing company
-            </p>
-          </div>
-          <div class="form-section">
-            <div class="form-group">
-              <label>Select Manufacturer:</label>
-              <select id="op2Manufacturer">
-                <option value="">-- Select a Manufacturer --</option>
-              </select>
-            </div>
-            <button class="btn" onclick="runOperation2()">
-              📋 List Models
-            </button>
-          </div>
-          <div class="result-container">
-            <div id="op2Result" class="result-box"></div>
-          </div>
-        </div>
-
-        <div id="panel3" class="operation-panel">
-          <div class="panel-header">
-            <h2>🔋 Operation 3: Longest Range Model</h2>
-            <p>
-              Find the model with the longest range (km) for a specific
-              manufacturer
-            </p>
-          </div>
-          <div class="form-section">
-            <div class="form-group">
-              <label>Select Manufacturer:</label>
-              <select id="op3Manufacturer">
-                <option value="">-- Select a Manufacturer --</option>
-              </select>
-            </div>
-            <button class="btn" onclick="runOperation3()">
-              🔋 Find Longest Range
-            </button>
-          </div>
-          <div class="result-container">
-            <div id="op3Result" class="result-box"></div>
-          </div>
-        </div>
-
-        <div id="panel4" class="operation-panel">
-          <div class="panel-header">
             <h2>⚡ Operation 4: Average Charging Time</h2>
-            <p>
-              Calculate the average charging time for a specific charging type
-            </p>
+            <p>Calculate the average charging time for a specific charging type</p>
           </div>
           <div class="form-section">
             <div class="form-group">
@@ -168,45 +107,33 @@
                 <option value="ALL">📊 Show All Charging Types</option>
               </select>
             </div>
-            <button class="btn" onclick="runOperation4()">
-              ⚡ Calculate Average
-            </button>
+            <button class="btn" onclick="runOperation4()">⚡ Calculate Average</button>
           </div>
           <div class="result-container">
             <div id="op4Result" class="result-box"></div>
           </div>
         </div>
 
-        <div id="panel5" class="operation-panel">
+        <div id="panel3" class="operation-panel">
           <div class="panel-header">
             <h2>🛡️ Operation 5: Top 5 Safest 2025 Vehicles</h2>
-            <p>
-              Rank the top 5 safest vehicles from year 2025 based on safety
-              rating
-            </p>
+            <p>Rank the top 5 safest vehicles from year 2025 based on safety rating</p>
           </div>
           <div class="form-section">
-            <button class="btn" onclick="runOperation5()">
-              🛡️ Show Top 5 Safest
-            </button>
+            <button class="btn" onclick="runOperation5()">🛡️ Show Top 5 Safest</button>
           </div>
           <div class="result-container">
             <div id="op5Result" class="result-box"></div>
           </div>
         </div>
 
-        <div id="panel6" class="operation-panel">
+        <div id="panel4" class="operation-panel">
           <div class="panel-header">
             <h2>🏆 Operation 6: Best-Selling EV in 2024</h2>
-            <p>
-              Find the best-selling electric vehicle in 2024 with detailed
-              information
-            </p>
+            <p>Find the best-selling electric vehicle in 2024 with detailed information</p>
           </div>
           <div class="form-section">
-            <button class="btn" onclick="runOperation6()">
-              🏆 Find Best Seller
-            </button>
+            <button class="btn" onclick="runOperation6()">🏆 Find Best Seller</button>
           </div>
           <div class="result-container">
             <div id="op6Result" class="result-box"></div>
