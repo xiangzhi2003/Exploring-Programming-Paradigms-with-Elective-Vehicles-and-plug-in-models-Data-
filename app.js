@@ -128,14 +128,54 @@ function runOperation1() {
     resultBox.innerHTML = html;
   } else {
     let count = countVehiclesByManufacturer(vehicles, manufacturer);
+
+    // Get models and their counts for this manufacturer
+    let modelCounts = [];
+    for (let i = 0; i < vehicles.length; i++) {
+      if (vehicles[i].Manufacturer === manufacturer) {
+        let found = false;
+        for (let j = 0; j < modelCounts.length; j++) {
+          if (modelCounts[j].name === vehicles[i].Model) {
+            modelCounts[j].count = modelCounts[j].count + 1;
+            found = true;
+          }
+        }
+        if (found === false) {
+          modelCounts[modelCounts.length] = { name: vehicles[i].Model, count: 1 };
+        }
+      }
+    }
+
+    // Sort models by count descending using bubble sort
+    for (let i = 0; i < modelCounts.length - 1; i++) {
+      for (let j = 0; j < modelCounts.length - 1 - i; j++) {
+        if (modelCounts[j].count < modelCounts[j + 1].count) {
+          let temp = modelCounts[j];
+          modelCounts[j] = modelCounts[j + 1];
+          modelCounts[j + 1] = temp;
+        }
+      }
+    }
+
     let html =
       '<div class="result-header"><div class="result-icon">🏭</div><div><div class="result-title">' +
       manufacturer +
-      '</div><div class="result-subtitle">Vehicle count</div></div></div>';
+      '</div><div class="result-subtitle">Vehicle count by model</div></div></div>';
     html +=
       '<div class="data-grid"><div class="data-card"><div class="data-card-value">' +
       count +
-      '</div><div class="data-card-label">Total Vehicles</div></div></div>';
+      '</div><div class="data-card-label">Total Vehicles</div></div><div class="data-card"><div class="data-card-value">' +
+      modelCounts.length +
+      '</div><div class="data-card-label">Models</div></div></div>';
+
+    // Show models table
+    html += '<table class="data-table" style="margin-top: 20px;">';
+    html += '<tr><th>Model</th><th>Vehicles</th></tr>';
+    for (let i = 0; i < modelCounts.length; i++) {
+      html += '<tr><td>' + modelCounts[i].name + '</td><td>' + modelCounts[i].count + '</td></tr>';
+    }
+    html += '</table>';
+
     resultBox.className = "result-box show";
     resultBox.innerHTML = html;
   }
@@ -195,9 +235,7 @@ function runOperation2() {
   let html =
     '<div class="result-header"><div class="result-icon">📋</div><div><div class="result-title">' +
     manufacturer +
-    ' Models</div><div class="result-subtitle">Found ' +
-    models.length +
-    " unique model(s)</div></div></div>";
+    ' Models</div><div class="result-subtitle">List of available models</div></div></div>';
 
   if (models.length > 0) {
     html += '<div class="model-list">';
@@ -513,9 +551,7 @@ function runOperation5() {
   let result = findTopSafest2025Vehicles(vehicles);
 
   let html =
-    '<div class="result-header"><div class="result-icon">🛡️</div><div><div class="result-title">Top 5 Safest 2025 Vehicles</div><div class="result-subtitle">From ' +
-    result.total2025 +
-    " vehicles manufactured in 2025</div></div></div>";
+    '<div class="result-header"><div class="result-icon">🛡️</div><div><div class="result-title">Top 5 Safest 2025 Vehicles</div><div class="result-subtitle">Ranked by safety rating</div></div></div>';
 
   if (result.top5.length === 0) {
     html +=
@@ -615,57 +651,38 @@ function runOperation6() {
   }
 
   let v = result.vehicle;
-  let marketShare = ((v.Units_Sold_2024 / result.totalSales) * 100).toFixed(2);
+  let top5 = getTopSellers(vehicles, 5);
 
   let html =
     '<div class="result-header"><div class="result-icon">🏆</div><div><div class="result-title">Best-Selling EV in 2024</div><div class="result-subtitle">Champion of electric vehicle sales</div></div></div>';
-  html +=
-    '<div class="vehicle-highlight"><div class="trophy-animate" style="font-size: 3rem; margin-bottom: 10px;">🏆</div><div class="vehicle-name">' +
-    v.Manufacturer +
-    '</div><div class="vehicle-model">' +
-    v.Model +
-    '</div><div class="vehicle-specs"><div class="spec-item"><div class="spec-value">' +
-    v.Units_Sold_2024.toLocaleString() +
-    '</div><div class="spec-label">Units Sold</div></div><div class="spec-item"><div class="spec-value">' +
-    marketShare +
-    '%</div><div class="spec-label">Market Share</div></div><div class="spec-item"><div class="spec-value">$' +
-    Math.round(v.Price_USD).toLocaleString() +
-    '</div><div class="spec-label">Price</div></div><div class="spec-item"><div class="spec-value">' +
-    v.Year +
-    '</div><div class="spec-label">Model Year</div></div></div></div>';
-  html +=
-    '<div class="data-grid"><div class="data-card"><div class="data-card-value">' +
-    v.Range_km +
-    ' km</div><div class="data-card-label">Range</div></div><div class="data-card"><div class="data-card-value">' +
-    v.Battery_Capacity_kWh +
-    ' kWh</div><div class="data-card-label">Battery</div></div><div class="data-card"><div class="data-card-value">' +
-    v.Charge_Time_hr +
-    ' hrs</div><div class="data-card-label">Charge Time</div></div><div class="data-card"><div class="data-card-value"><span class="safety-stars">' +
-    generateStars(v.Safety_Rating) +
-    '</span></div><div class="data-card-label">Safety</div></div></div>';
 
-  let top5 = getTopSellers(vehicles, 5);
-  html +=
-    '<h3 style="margin: 30px 0 15px; color: #00d9ff;">Top 5 Best Sellers in 2024</h3>';
-  html +=
-    '<table class="data-table"><tr><th>Rank</th><th>Manufacturer</th><th>Model</th><th>Units Sold</th><th>Price</th></tr>';
+  // Card with Top 5 Design
+  html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">';
+  // Winner card
+  html += '<div style="background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,184,0,0.1)); border-radius: 15px; padding: 25px; border: 1px solid rgba(255,215,0,0.3); text-align: center;">';
+  html += '<div style="font-size: 2.5rem; margin-bottom: 10px;">🏆</div>';
+  html += '<div style="font-size: 1.2rem; color: #ffd700; font-weight: bold;">#1 Best Seller</div>';
+  html += '<div style="font-size: 1.1rem; color: #fff; margin: 10px 0;">' + v.Manufacturer + ' ' + v.Model + '</div>';
+  html += '<div style="font-size: 2rem; color: #00ff88; font-weight: bold;">' + v.Units_Sold_2024.toLocaleString() + '</div>';
+  html += '<div style="color: #888; font-size: 0.9rem;">units sold</div>';
+  html += '</div>';
+  // Top 5 list
+  html += '<div style="background: rgba(0,0,0,0.3); border-radius: 15px; padding: 20px;">';
+  html += '<div style="color: #00d9ff; font-weight: bold; margin-bottom: 15px;">Top 5 Sellers</div>';
   for (let i = 0; i < top5.length; i++) {
-    html +=
-      '<tr><td><span class="rank-badge rank-' +
-      (i + 1) +
-      '">' +
-      (i + 1) +
-      "</span></td><td><strong>" +
-      top5[i].Manufacturer +
-      "</strong></td><td>" +
-      top5[i].Model +
-      "</td><td>" +
-      top5[i].Units_Sold_2024.toLocaleString() +
-      "</td><td>$" +
-      Math.round(top5[i].Price_USD).toLocaleString() +
-      "</td></tr>";
+    let badgeColor = '';
+    if (i === 0) { badgeColor = '#ffd700'; }
+    else if (i === 1) { badgeColor = '#c0c0c0'; }
+    else if (i === 2) { badgeColor = '#cd7f32'; }
+    else { badgeColor = '#00d9ff'; }
+    html += '<div style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">';
+    html += '<div style="width: 24px; height: 24px; border-radius: 50%; background: ' + badgeColor + '; color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8rem;">' + (i + 1) + '</div>';
+    html += '<div style="flex: 1; color: #fff; font-size: 0.9rem;">' + top5[i].Manufacturer + ' ' + top5[i].Model + '</div>';
+    html += '<div style="color: #00ff88; font-size: 0.85rem;">' + top5[i].Units_Sold_2024.toLocaleString() + '</div>';
+    html += '</div>';
   }
-  html += "</table>";
+  html += '</div>';
+  html += '</div>';
 
   resultBox.className = "result-box show";
   resultBox.innerHTML = html;
