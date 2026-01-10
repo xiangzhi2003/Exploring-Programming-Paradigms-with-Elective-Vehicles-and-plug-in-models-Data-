@@ -837,8 +837,6 @@
 //   loadData();
 // };
 
-
-
 // =============================================================
 // SECTION 1: GLOBAL VARIABLES
 // =============================================================
@@ -851,7 +849,6 @@ let uniqueManufacturers = [];
 
 // Array to store unique charging type names (used by Op 4)
 let uniqueChargingTypes = [];
-
 
 // =============================================================
 // SECTION 2: DATA EXTRACTION & DROPDOWN SETUP
@@ -936,7 +933,6 @@ function populateChargingTypeDropdown() {
   }
 }
 
-
 // =============================================================
 // SECTION 3: UTILITY HELPERS
 // =============================================================
@@ -954,7 +950,6 @@ function generateStars(rating) {
   }
   return stars;
 }
-
 
 // =============================================================
 // SECTION 4: OPERATION 1 - MANUFACTURER STATISTICS
@@ -1027,9 +1022,9 @@ function runOperation1() {
         percentage +
         '%"><span class="bar-value">' +
         allCounts[i].count +
-        '</span></div></div></div>';
+        "</span></div></div></div>";
     }
-    html += '</div>';
+    html += "</div>";
     resultBox.className = "result-box show";
     resultBox.innerHTML = html;
     return;
@@ -1090,33 +1085,40 @@ function runOperation1() {
   // Model List Table with Count
   html += '<div class="result-section">';
   html += '<h3 class="section-title">📋 Available Models</h3>';
-  html += '<table class="data-table" style="table-layout: fixed; width: 100%;"><tr><th style="width: 33.33%;">No.</th><th style="width: 33.33%;">Model Name</th><th style="width: 33.33%;">Count</th></tr>';
+  html +=
+    '<table class="data-table" style="table-layout: fixed; width: 100%;"><tr><th style="width: 33.33%;">No.</th><th style="width: 33.33%;">Model Name</th><th style="width: 33.33%;">Count</th></tr>';
   for (let i = 0; i < modelCounts.length; i++) {
-    html += '<tr><td>' + (i + 1) + '</td><td>' + modelCounts[i].name + '</td><td>' + modelCounts[i].count + '</td></tr>';
+    html +=
+      "<tr><td>" +
+      (i + 1) +
+      "</td><td>" +
+      modelCounts[i].name +
+      "</td><td>" +
+      modelCounts[i].count +
+      "</td></tr>";
   }
-  html += '</table>';
-  html += '</div>';
+  html += "</table>";
+  html += "</div>";
 
   // Longest Range
   html += '<div class="result-section">';
   html += '<h3 class="section-title">🔋 Longest Range Model</h3>';
   if (longestVehicle !== null) {
     html += '<div class="vehicle-highlight">';
-    html += '<div class="vehicle-model">' + longestVehicle.Model + '</div>';
+    html += '<div class="vehicle-model">' + longestVehicle.Model + "</div>";
     html += '<div class="vehicle-specs">';
     html +=
       '<div class="spec-item"><div class="spec-value">' +
       longestVehicle.Range_km +
       ' km</div><div class="spec-label">Range</div></div>';
-    html += '</div>';
-    html += '</div>';
+    html += "</div>";
+    html += "</div>";
   }
-  html += '</div>';
+  html += "</div>";
 
   resultBox.className = "result-box show";
   resultBox.innerHTML = html;
 }
-
 
 // =============================================================
 // SECTION 5: OPERATION 2 - LIST MODELS
@@ -1184,14 +1186,13 @@ function runOperation2() {
       (i + 1) +
       '</div><div class="model-name">' +
       models[i] +
-      '</div></div>';
+      "</div></div>";
   }
-  html += '</div>';
+  html += "</div>";
 
   resultBox.className = "result-box show";
   resultBox.innerHTML = html;
 }
-
 
 // =============================================================
 // SECTION 6: OPERATION 3 - LONGEST RANGE
@@ -1236,22 +1237,21 @@ function runOperation3() {
   let html =
     '<div class="result-header"><div class="result-icon">🔋</div><div><div class="result-title">Longest Range Vehicle</div><div class="result-subtitle">For ' +
     manufacturer +
-    '</div></div></div>';
+    "</div></div></div>";
 
   html += '<div class="vehicle-highlight">';
-  html += '<div class="vehicle-model">' + vehicle.Model + '</div>';
+  html += '<div class="vehicle-model">' + vehicle.Model + "</div>";
   html += '<div class="vehicle-specs">';
   html +=
     '<div class="spec-item"><div class="spec-value">' +
     vehicle.Range_km +
     ' km</div><div class="spec-label">Range</div></div>';
-  html += '</div>';
-  html += '</div>';
+  html += "</div>";
+  html += "</div>";
 
   resultBox.className = "result-box show";
   resultBox.innerHTML = html;
 }
-
 
 // =============================================================
 // SECTION 7: OPERATION 4 - CHARGING STATISTICS
@@ -1376,7 +1376,6 @@ function runOperation4() {
   }
 }
 
-
 // =============================================================
 // SECTION 8: OPERATION 5 - SAFETY RANKINGS
 // =============================================================
@@ -1481,7 +1480,6 @@ function runOperation5() {
   resultBox.innerHTML = html;
 }
 
-
 // =============================================================
 // SECTION 9: OPERATION 6 - SALES ANALYSIS
 // =============================================================
@@ -1549,37 +1547,68 @@ function runOperation6() {
     '<div class="result-header"><div class="result-icon">🏆</div><div><div class="result-title">Best-Selling EV in 2024</div><div class="result-subtitle">Champion of electric vehicle sales</div></div></div>';
 
   // Card with Top 5 Design
-  html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">';
+  html +=
+    '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">';
   // Winner card
-  html += '<div style="background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,184,0,0.1)); border-radius: 15px; padding: 25px; border: 1px solid rgba(255,215,0,0.3); text-align: center;">';
+  html +=
+    '<div style="background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,184,0,0.1)); border-radius: 15px; padding: 25px; border: 1px solid rgba(255,215,0,0.3); text-align: center;">';
   html += '<div style="font-size: 2.5rem; margin-bottom: 10px;">🏆</div>';
-  html += '<div style="font-size: 1.2rem; color: #ffd700; font-weight: bold;">#1 Best Seller</div>';
-  html += '<div style="font-size: 1.1rem; color: #fff; margin: 10px 0;">' + v.Manufacturer + ' ' + v.Model + '</div>';
-  html += '<div style="font-size: 2rem; color: #00ff88; font-weight: bold;">' + v.Units_Sold_2024.toLocaleString() + '</div>';
+  html +=
+    '<div style="font-size: 1.2rem; color: #ffd700; font-weight: bold;">#1 Best Seller</div>';
+  html +=
+    '<div style="font-size: 1.1rem; color: #fff; margin: 10px 0;">' +
+    v.Manufacturer +
+    " " +
+    v.Model +
+    "</div>";
+  html +=
+    '<div style="font-size: 2rem; color: #00ff88; font-weight: bold;">' +
+    v.Units_Sold_2024.toLocaleString() +
+    "</div>";
   html += '<div style="color: #888; font-size: 0.9rem;">units sold</div>';
-  html += '</div>';
+  html += "</div>";
   // Top 5 list
-  html += '<div style="background: rgba(0,0,0,0.3); border-radius: 15px; padding: 20px;">';
-  html += '<div style="color: #00d9ff; font-weight: bold; margin-bottom: 15px;">Top 5 Sellers</div>';
+  html +=
+    '<div style="background: rgba(0,0,0,0.3); border-radius: 15px; padding: 20px;">';
+  html +=
+    '<div style="color: #00d9ff; font-weight: bold; margin-bottom: 15px;">Top 5 Sellers</div>';
   for (let i = 0; i < top5.length; i++) {
-    let badgeColor = '';
-    if (i === 0) { badgeColor = '#ffd700'; }
-    else if (i === 1) { badgeColor = '#c0c0c0'; }
-    else if (i === 2) { badgeColor = '#cd7f32'; }
-    else { badgeColor = '#00d9ff'; }
-    html += '<div style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">';
-    html += '<div style="width: 24px; height: 24px; border-radius: 50%; background: ' + badgeColor + '; color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8rem;">' + (i + 1) + '</div>';
-    html += '<div style="flex: 1; color: #fff; font-size: 0.9rem;">' + top5[i].Manufacturer + ' ' + top5[i].Model + '</div>';
-    html += '<div style="color: #00ff88; font-size: 0.85rem;">' + top5[i].Units_Sold_2024.toLocaleString() + '</div>';
-    html += '</div>';
+    let badgeColor = "";
+    if (i === 0) {
+      badgeColor = "#ffd700";
+    } else if (i === 1) {
+      badgeColor = "#c0c0c0";
+    } else if (i === 2) {
+      badgeColor = "#cd7f32";
+    } else {
+      badgeColor = "#00d9ff";
+    }
+    html +=
+      '<div style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">';
+    html +=
+      '<div style="width: 24px; height: 24px; border-radius: 50%; background: ' +
+      badgeColor +
+      '; color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8rem;">' +
+      (i + 1) +
+      "</div>";
+    html +=
+      '<div style="flex: 1; color: #fff; font-size: 0.9rem;">' +
+      top5[i].Manufacturer +
+      " " +
+      top5[i].Model +
+      "</div>";
+    html +=
+      '<div style="color: #00ff88; font-size: 0.85rem;">' +
+      top5[i].Units_Sold_2024.toLocaleString() +
+      "</div>";
+    html += "</div>";
   }
-  html += '</div>';
-  html += '</div>';
+  html += "</div>";
+  html += "</div>";
 
   resultBox.className = "result-box show";
   resultBox.innerHTML = html;
 }
-
 
 // =============================================================
 // SECTION 10: APP INITIALIZATION & NAVIGATION
@@ -1644,8 +1673,7 @@ function loadData() {
         vehicles.length.toLocaleString();
       document.getElementById("totalManufacturers").textContent =
         uniqueManufacturers.length;
-      document.getElementById("totalModels").textContent =
-        uniqueModels.length;
+      document.getElementById("totalModels").textContent = uniqueModels.length;
       // Populate dropdown menus
       populateManufacturerDropdowns();
       populateChargingTypeDropdown();
