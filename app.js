@@ -121,9 +121,9 @@ function runOperation1() {
         percentage +
         '%"><span class="bar-value">' +
         allCounts[i].count +
-        "</span></div></div></div>";
+        '</span></div></div></div>';
     }
-    html += "</div>";
+    html += '</div>';
     resultBox.className = "result-box show";
     resultBox.innerHTML = html;
   } else {
@@ -710,13 +710,27 @@ function loadData() {
       // Hide loading message and show main content
       document.getElementById("loadingMessage").style.display = "none";
       document.getElementById("mainContent").style.display = "block";
+      // Count unique models
+      let uniqueModels = [];
+      for (let i = 0; i < vehicles.length; i++) {
+        let found = false;
+        for (let j = 0; j < uniqueModels.length; j++) {
+          if (uniqueModels[j] === vehicles[i].Model) {
+            found = true;
+          }
+        }
+        if (found === false) {
+          uniqueModels[uniqueModels.length] = vehicles[i].Model;
+        }
+      }
+
       // Update statistics in header
       document.getElementById("totalVehicles").textContent =
         vehicles.length.toLocaleString();
       document.getElementById("totalManufacturers").textContent =
         uniqueManufacturers.length;
-      document.getElementById("totalChargingTypes").textContent =
-        uniqueChargingTypes.length;
+      document.getElementById("totalModels").textContent =
+        uniqueModels.length;
       // Populate dropdown menus
       populateManufacturerDropdowns();
       populateChargingTypeDropdown();
