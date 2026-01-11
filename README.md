@@ -1,7 +1,7 @@
 # APLC Assignment Phase 1 - Imperative Programming
 
 ## Project Overview
-Electric Vehicle Data Processing using **Imperative Programming** paradigm in Node.js.
+Electric Vehicle Data Processing using **Imperative Programming** paradigm. This project includes both a **Node.js CLI version** and a **Web-based version** for interactive data analysis.
 
 ## Student Information
 - **Name**: Chiang Xiang Zhi
@@ -18,30 +18,47 @@ Electric Vehicle Data Processing using **Imperative Programming** paradigm in No
 
 ## Operations
 
-| Operation | File | Description | Status |
-|-----------|------|-------------|--------|
-| 1 | `Operation 1.js` | Count vehicles by manufacturer | Done |
-| 2 | `Operation 2.js` | List models by manufacturer (interactive input) | Done |
-| 3 | `Operation 3.js` | Find longest range model per manufacturer (interactive input) | Done |
-| 4 | `Operation 4.js` | Calculate average charge time by charging type (interactive input) | Done |
-| 5 | `Operation 5.js` | Rank top 5 safest 2025 vehicles | Done |
-| 6 | `Operation 6.js` | Find best-selling EV in 2024 | Done |
+| Operation | Description | Status |
+|-----------|-------------|--------|
+| 1 | Count vehicles by manufacturer | Done |
+| 2 | List models by manufacturer (interactive input) | Done |
+| 3 | Find longest range model per manufacturer (interactive input) | Done |
+| 4 | Calculate average charge time by charging type (interactive input) | Done |
+| 5 | Rank top 5 safest 2025 vehicles | Done |
+| 6 | Find best-selling EV in 2024 | Done |
 
 ## File Structure
 ```
 Assignment Phase 1/
-├── index.js                         # Data loading + displays all manufacturers and models
-├── Operation 1.js                   # Count vehicles by manufacturer
-├── Operation 2.js                   # List models by manufacturer (interactive)
-├── Operation 3.js                   # Find longest range model (interactive)
-├── Operation 4.js                   # Average charge time by type (interactive)
-├── Operation 5.js                   # Top 5 safest 2025 vehicles
-├── Operation 6.js                   # Best-selling EV in 2024
-├── electric_vehicles_dataset.json   # Dataset
-└── README.md                        # This file
+├── Node.js CLI Version
+│   ├── index.js                         # Data loading + displays all manufacturers and models
+│   ├── Operation 1.js                   # Count vehicles by manufacturer
+│   ├── Operation 2.js                   # List models by manufacturer (interactive)
+│   ├── Operation 3.js                   # Find longest range model (interactive)
+│   ├── Operation 4.js                   # Average charge time by type (interactive)
+│   ├── Operation 5.js                   # Top 5 safest 2025 vehicles
+│   └── Operation 6.js                   # Best-selling EV in 2024
+│
+├── Web-based Version
+│   ├── electric_vehicles_website.html   # Main HTML page
+│   ├── electric_vehicles_website.css    # Stylesheet
+│   └── js/
+│       ├── main.js                      # Global variables and entry point
+│       ├── utils.js                     # Utility functions
+│       ├── data-loader.js               # JSON data loading
+│       ├── operation1-manufacturer.js   # Manufacturer count operations
+│       ├── operation4-charging.js       # Charging time operations
+│       ├── operation5-safety.js         # Safety ranking operations
+│       ├── operation6-sales.js          # Sales analysis operations
+│       └── ui-navigation.js             # UI navigation handling
+│
+├── electric_vehicles_dataset.json       # Dataset
+└── README.md                            # This file
 ```
 
 ## How to Run
+
+### Node.js CLI Version
 ```bash
 # Run main index file
 node index.js
@@ -63,6 +80,19 @@ node "Operation 5.js"
 
 # Run Operation 6
 node "Operation 6.js"
+```
+
+### Web-based Version
+Open `electric_vehicles_website.html` in a web browser with a local server (required for JSON loading):
+
+```bash
+# Using Python
+python -m http.server 8000
+
+# Using Node.js (with http-server package)
+npx http-server
+
+# Then open http://localhost:8000/electric_vehicles_website.html
 ```
 
 ## GitHub Repository
