@@ -106,7 +106,7 @@ function populateChargingTypeDropdown() {
  * Loads vehicle data from JSON file, extracts unique values, and sets up UI
  */
 function loadData() {
-  fetch("electric_vehicles_dataset.json")
+  fetch("../electric_vehicles_dataset.json")
     .then(function (response) {
       return response.json();
     })
