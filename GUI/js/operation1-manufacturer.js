@@ -59,44 +59,6 @@ function getAllManufacturerCounts(data) {
 }
 
 /**
- * getUniqueModels - Get all unique model names for a specific manufacturer
- * @param {Array} data - Array of vehicle objects
- * @param {string} manufacturer - Manufacturer name to filter by
- * @returns {Array} - Array of unique model names sorted alphabetically
- */
-function getUniqueModels(data, manufacturer) {
-  let models = [];
-
-  // Find all unique models for this manufacturer
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].Manufacturer === manufacturer) {
-      let found = false;
-      for (let j = 0; j < models.length; j++) {
-        if (models[j] === data[i].Model) {
-          found = true;
-        }
-      }
-      if (found === false) {
-        models[models.length] = data[i].Model;
-      }
-    }
-  }
-
-  // Sort alphabetically using bubble sort
-  for (let i = 0; i < models.length - 1; i++) {
-    for (let j = 0; j < models.length - 1 - i; j++) {
-      if (models[j] > models[j + 1]) {
-        let temp = models[j];
-        models[j] = models[j + 1];
-        models[j + 1] = temp;
-      }
-    }
-  }
-
-  return models;
-}
-
-/**
  * findLongestRangeVehicle - Find vehicle with longest range for a manufacturer
  * @param {Array} data - Array of vehicle objects
  * @param {string} manufacturer - Manufacturer name to filter by
